@@ -1,7 +1,7 @@
 'use client'
 
 import '../styles.css';
-import Link from 'next/link'
+import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import InputJuego1 from "../componentes/InputJuego1";
@@ -15,14 +15,18 @@ import InputJuego8 from "../componentes/InputJuego8";
 
 export default function Jugador1() {
   const [currentInput, setCurrentInput] = useState(() => {
-    // Recuperar el estado desde localStorage cuando el componente se monta
-    const savedInput = localStorage.getItem('currentInputJugador1');
-    return savedInput ? parseInt(savedInput, 10) : 1;
+    // Recuperar el estado desde localStorage cuando el componente se monte
+    if (typeof window !== 'undefined') {
+      const savedInput = localStorage.getItem('currentInputJugador1');
+      return savedInput ? parseInt(savedInput, 10) : 1;
+    }
+    return 1; // Valor predeterminado si window no está definido
   });
 
-  // Guardar el estado en localStorage cuando cambie currentInput
   useEffect(() => {
-    localStorage.setItem('currentInputJugador1', currentInput.toString()); // Guardar el valor como cadena de texto
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('currentInputJugador1', currentInput.toString());
+    }
   }, [currentInput]);
 
   const handleCompleteJuego1 = () => {
@@ -56,7 +60,6 @@ export default function Jugador1() {
   const handleCompleteJuego8 = () => {
     alert('Todos los juegos registrados');
     setCurrentInput(1);
-    // Aquí podrías manejar la lógica para finalizar el registro
   };
 
   return (

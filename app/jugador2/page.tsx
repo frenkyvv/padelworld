@@ -15,14 +15,18 @@ import InputJuego8 from "../componentes/InputJuego8";
 
 export default function Jugador2() {
   const [currentInput, setCurrentInput] = useState(() => {
-    // Recuperar el estado desde localStorage cuando el componente se monta
-    const savedInput = localStorage.getItem('currentInputJugador2');
-    return savedInput ? parseInt(savedInput, 10) : 1;
+    // Recuperar el estado desde localStorage cuando el componente se monte
+    if (typeof window !== 'undefined') {
+      const savedInput = localStorage.getItem('currentInputJugador2');
+      return savedInput ? parseInt(savedInput, 10) : 1;
+    }
+    return 1; // Valor predeterminado si window no está definido
   });
 
-  // Guardar el estado en localStorage cuando cambie currentInput
   useEffect(() => {
-    localStorage.setItem('currentInputJugador2', currentInput.toString()); // Guardar el valor como cadena de texto
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('currentInputJugador2', currentInput.toString());
+    }
   }, [currentInput]);
 
   const handleCompleteJuego1 = () => {

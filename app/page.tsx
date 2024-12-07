@@ -1,13 +1,11 @@
 'use client'
 
-import { useLocalStorage } from 'react-use';
+import '../app/styles.css';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ResetDatos from "../app/componentes/ResetDatos";
 
 export default function Home() {
-  const [value, setValue] = useLocalStorage('key', 'initialValue');
-
   return (
     <div className="topcontainer">
       <div className="titulo">Bienvenidos a Padel World</div>
