@@ -54,7 +54,7 @@ const TablaTodosJugadores = () => {
             <th scope="col" className="text-center"> 6</th>
             <th scope="col" className="text-center"> 7</th>
             <th scope="col" className="text-center"> 8</th>
-            <th scope="col" className="text-center">Total Puntos</th>
+            <th scope="col" className="text-center">Total</th>
           </tr>
         </thead>
         <tbody>

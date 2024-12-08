@@ -14,6 +14,7 @@ import InputJuego7 from "../componentes/InputJuego7";
 import InputJuego8 from "../componentes/InputJuego8";
 import SumaPuntos from "../componentes/SumaPuntos";
 import TablaResultados from "../componentes/TablaResultados";
+import TablaTodosJugadores from '../componentes/TablaTodosJugadores';
 
 export default function Jugador3() {
   const [currentInput, setCurrentInput] = useState(() => {
@@ -80,6 +81,7 @@ export default function Jugador3() {
       </div>
       <SumaPuntos jugador="jugador3" />
       <TablaResultados jugador="jugador3" />
+      <TablaTodosJugadores/>
       <div className="link"><Link href="/">Home</Link></div>
     </div>
   );
