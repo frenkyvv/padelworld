@@ -8,7 +8,7 @@ import ResetDatos from "../app/componentes/ResetDatos";
 export default function Home() {
   return (
     <div className="topcontainer">
-      <div className="titulo">Bienvenidos a Padel World</div>
+      <div className="titulo">Bienvenidos a Padel World Americanas</div>
       <div className="subtitulo">
         <div className="d-grid gap-2">
           <Link href="/jugador1/" passHref>
