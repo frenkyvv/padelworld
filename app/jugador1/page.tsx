@@ -12,16 +12,20 @@ import InputJuego5 from "../componentes/InputJuego5";
 import InputJuego6 from "../componentes/InputJuego6";
 import InputJuego7 from "../componentes/InputJuego7";
 import InputJuego8 from "../componentes/InputJuego8";
+import SumaPuntos from "../componentes/SumaPuntos";
+import TablaResultados from "../componentes/TablaResultados";
 
 export default function Jugador1() {
-  const [currentInput, setCurrentInput] = useState(() => {
-    // Recuperar el estado desde localStorage cuando el componente se monte
+  const [currentInput, setCurrentInput] = useState(1);
+
+  useEffect(() => {
     if (typeof window !== 'undefined') {
       const savedInput = localStorage.getItem('currentInputJugador1');
-      return savedInput ? parseInt(savedInput, 10) : 1;
+      if (savedInput) {
+        setCurrentInput(parseInt(savedInput, 10));
+      }
     }
-    return 1; // Valor predeterminado si window no está definido
-  });
+  }, []);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -75,6 +79,9 @@ export default function Jugador1() {
         {currentInput === 7 && <div className="inputs"><InputJuego7 jugador="jugador1" onComplete={handleCompleteJuego7} /></div>}
         {currentInput === 8 && <div className="inputs"><InputJuego8 jugador="jugador1" onComplete={handleCompleteJuego8} /></div>}
       </div>
+
+      <SumaPuntos jugador="jugador1" />
+      <TablaResultados jugador="jugador1" />
       <div className="link"><Link href="/">Home</Link></div>
     </div>
   );

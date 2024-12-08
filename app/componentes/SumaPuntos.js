@@ -31,7 +31,7 @@ const SumaPuntos = ({ jugador }) => {
 
   return (
     <div className="total-puntos">
-      <h5>Total de Puntos para {jugador.charAt(0).toUpperCase() + jugador.slice(1)}: {totalPuntos}</h5>
+      <h5>Total: {totalPuntos}</h5>
     </div>
   );
 };

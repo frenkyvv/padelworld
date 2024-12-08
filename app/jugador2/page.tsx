@@ -1,7 +1,7 @@
 'use client'
 
 import '../styles.css';
-import Link from 'next/link'
+import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useState, useEffect } from 'react';
 import InputJuego1 from "../componentes/InputJuego1";
@@ -12,15 +12,16 @@ import InputJuego5 from "../componentes/InputJuego5";
 import InputJuego6 from "../componentes/InputJuego6";
 import InputJuego7 from "../componentes/InputJuego7";
 import InputJuego8 from "../componentes/InputJuego8";
+import SumaPuntos from "../componentes/SumaPuntos";
+import TablaResultados from "../componentes/TablaResultados";
 
 export default function Jugador2() {
   const [currentInput, setCurrentInput] = useState(() => {
-    // Recuperar el estado desde localStorage cuando el componente se monte
     if (typeof window !== 'undefined') {
       const savedInput = localStorage.getItem('currentInputJugador2');
       return savedInput ? parseInt(savedInput, 10) : 1;
     }
-    return 1; // Valor predeterminado si window no está definido
+    return 1;
   });
 
   useEffect(() => {
@@ -60,7 +61,6 @@ export default function Jugador2() {
   const handleCompleteJuego8 = () => {
     alert('Todos los juegos registrados');
     setCurrentInput(1);
-    // Aquí podrías manejar la lógica para finalizar el registro
   };
 
   return (
@@ -76,6 +76,8 @@ export default function Jugador2() {
         {currentInput === 7 && <div className="inputs"><InputJuego7 jugador="jugador2" onComplete={handleCompleteJuego7} /></div>}
         {currentInput === 8 && <div className="inputs"><InputJuego8 jugador="jugador2" onComplete={handleCompleteJuego8} /></div>}
       </div>
+      <SumaPuntos jugador="jugador2" />
+      <TablaResultados jugador="jugador2" />
       <div className="link"><Link href="/">Home</Link></div>
     </div>
   );

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '../../firebase';
 import { doc, updateDoc } from "firebase/firestore";
 
 const InputJuego1 = ({ onComplete, jugador }) => {
@@ -35,17 +35,14 @@ const InputJuego1 = ({ onComplete, jugador }) => {
       try {
         const jugadorRef = doc(db, "padel", jugador);
 
-        // Actualiza el campo j1 del documento del jugador en Firestore
-        await updateDoc(jugadorRef, {
-          j1: Number(value)
-        });
+        await updateDoc(jugadorRef, { j1: Number(value) });
         if (typeof window !== 'undefined') {
-          localStorage.setItem(`${jugador}-juego1`, value); // Guardar el valor en localStorage
+          localStorage.setItem(`${jugador}-juego1`, value);
         }
         alert('Puntos registrados: ' + value);
-        setValue(''); // Limpiar el campo después de enviar los datos
-        setError(''); // Limpiar el mensaje de error
-        onComplete(); // Notificar al componente padre
+        setValue('');
+        setError('');
+        onComplete();
       } catch (error) {
         console.error("Error al registrar los puntos: ", error);
         setError('Error al registrar los puntos.');

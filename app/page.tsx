@@ -4,6 +4,7 @@ import '../app/styles.css';
 import Link from 'next/link';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ResetDatos from "../app/componentes/ResetDatos";
+import TablaTodosJugadores from "../app/componentes/TablaTodosJugadores"; // Importar el componente correcto
 
 export default function Home() {
   return (
@@ -36,6 +37,9 @@ export default function Home() {
             <button className="btn btn-primary">Jugador 8</button>
           </Link>
         </div>
+       <div className="tablaTotal">
+        <TablaTodosJugadores />
+        </div> 
       </div>
       <ResetDatos />
     </div>

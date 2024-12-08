@@ -12,6 +12,8 @@ import InputJuego5 from "../componentes/InputJuego5";
 import InputJuego6 from "../componentes/InputJuego6";
 import InputJuego7 from "../componentes/InputJuego7";
 import InputJuego8 from "../componentes/InputJuego8";
+import SumaPuntos from "../componentes/SumaPuntos";
+import TablaResultados from "../componentes/TablaResultados";
 
 export default function Jugador4() {
   const [currentInput, setCurrentInput] = useState(() => {
@@ -76,6 +78,8 @@ export default function Jugador4() {
         {currentInput === 7 && <div className="inputs"><InputJuego7 jugador="jugador4" onComplete={handleCompleteJuego7} /></div>}
         {currentInput === 8 && <div className="inputs"><InputJuego8 jugador="jugador4" onComplete={handleCompleteJuego8} /></div>}
       </div>
+      <SumaPuntos jugador="jugador4" />
+      <TablaResultados jugador="jugador4" />
       <div className="link"><Link href="/">Home</Link></div>
     </div>
   );
