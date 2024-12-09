@@ -35,6 +35,7 @@ const NombreJugador = ({ jugador, onComplete }) => {
       const jugadorRef = doc(db, "padel", jugador);
       await updateDoc(jugadorRef, { nombre });
       onComplete(nombre);
+      window.location.reload();
       setShowInput(false);
     } catch (error) {
       console.error("Error al guardar el nombre: ", error);

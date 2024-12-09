@@ -42,6 +42,7 @@ const InputJuego7 = ({ onComplete, jugador }) => {
         setValue(''); // Limpiar el campo después de enviar los datos
         setError(''); // Limpiar el mensaje de error
         onComplete(); // Notificar al componente padre
+        window.location.reload();
       } catch (error) {
         console.error("Error al registrar los puntos: ", error);
         setError('Error al registrar los puntos.');

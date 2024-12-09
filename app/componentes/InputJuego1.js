@@ -43,6 +43,7 @@ const InputJuego1 = ({ onComplete, jugador }) => {
         setValue('');
         setError('');
         onComplete();
+        window.location.reload();
       } catch (error) {
         console.error("Error al registrar los puntos: ", error);
         setError('Error al registrar los puntos.');
