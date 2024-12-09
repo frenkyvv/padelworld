@@ -3,14 +3,20 @@
 import '../styles.css';
 import ResetDatos from '../componentes/ResetDatos';
 import ModificarPuntuacion from '../componentes/ModificarPuntuacion';
+import BorrarNombre from '../componentes/BorrarNombre';
+import BorrarTodosNombres from '../componentes/BorrarTodosNombres';
 import Link from 'next/link';
 
 export default function Config () {
     return (
     <div className="topcontainer">
     <div className="titulo">Configuration</div>
+    <div className="botones">
     <ResetDatos />
-    <div className="titulo">
+    <BorrarTodosNombres/>
+    <BorrarNombre />
+    </div>
+    <div className="subtitulo">
       <ModificarPuntuacion/>
     <div className="subtitulo">
         <div className="d-grid gap-2">

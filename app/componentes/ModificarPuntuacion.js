@@ -39,6 +39,7 @@ const ModificarPuntuacion = () => {
   };
 
   return (
+    <div className="subtitulo">
     <div className="container mt-5">
       <h3>Modificar Puntuación</h3>
       <div className="mb-3">
@@ -83,6 +84,7 @@ const ModificarPuntuacion = () => {
         />
       </div>
       <button className="btn btn-primary" onClick={handleUpdate}>Actualizar Puntos</button>
+    </div>
     </div>
   );
 };

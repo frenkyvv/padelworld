@@ -2,7 +2,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true, // Activa el modo estricto de React
-  swcMinify: true, // Activa la minificación SWC para optimizar el rendimiento
+   // Activa la minificación SWC para optimizar el rendimiento
   env: {
     // Configura variables de entorno públicas para Firebase
     NEXT_PUBLIC_FIREBASE_API_KEY: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,

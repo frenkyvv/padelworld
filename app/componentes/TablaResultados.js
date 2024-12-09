@@ -16,6 +16,7 @@ const TablaResultados = ({ jugador }) => {
     j7: 0,
     j8: 0
   });
+  const [nombre, setNombre] = useState('');
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,6 +37,7 @@ const TablaResultados = ({ jugador }) => {
             j8: data.j8 || 0,
           };
           setResultados(filteredData);
+          setNombre(data.nombre || jugador.charAt(0).toUpperCase() + jugador.slice(1));
         } else {
           console.log("No such document!");
         }
@@ -60,7 +62,7 @@ const TablaResultados = ({ jugador }) => {
         </thead>
         <tbody>
           <tr>
-            <td className="text-center">{jugador.charAt(0).toUpperCase() + jugador.slice(1)}</td>
+            <td className="text-center">{nombre}</td>
             {Object.values(resultados).map((puntos, index) => (
               <td className="text-center" key={index}>{puntos}</td>
             ))}

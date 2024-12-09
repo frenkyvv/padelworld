@@ -15,21 +15,31 @@ import InputJuego8 from "../componentes/InputJuego8";
 import SumaPuntos from "../componentes/SumaPuntos";
 import TablaResultados from "../componentes/TablaResultados";
 import TablaTodosJugadores from '../componentes/TablaTodosJugadores';
+import NombreJugador from "../componentes/NombreJugador"; // Importar el nuevo componente
 
 export default function Jugador2() {
-  const [currentInput, setCurrentInput] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const savedInput = localStorage.getItem('currentInputJugador2');
-      return savedInput ? parseInt(savedInput, 10) : 1;
-    }
-    return 1;
-  });
+  const [currentInput, setCurrentInput] = useState(1);
+  const [nombre, setNombre] = useState('');
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('currentInputJugador2', currentInput.toString());
+    const savedInput = localStorage.getItem('currentInputJugador2');
+    if (savedInput) {
+      setCurrentInput(parseInt(savedInput, 10));
     }
+
+    const savedNombre = localStorage.getItem('nombreJugador2');
+    if (savedNombre) {
+      setNombre(savedNombre);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem('currentInputJugador2', currentInput.toString());
   }, [currentInput]);
+
+  useEffect(() => {
+    localStorage.setItem('nombreJugador2', nombre);
+  }, [nombre]);
 
   const handleCompleteJuego1 = () => {
     setCurrentInput(2);
@@ -64,22 +74,27 @@ export default function Jugador2() {
     setCurrentInput(1);
   };
 
+  const handleNombreComplete = (nombre: string) => {
+    setNombre(nombre);
+  };
+
   return (
     <div className="topcontainer">
-      <div className="titulo">Jugador 2</div>
+      <div className="titulo">{nombre || 'Jugador 2'}</div> {/* Mostrar el nombre */}
+      <NombreJugador jugador="jugador2" onComplete={handleNombreComplete} /> {/* Incluir el componente */}
       <div className="subtitulo">
-        {currentInput === 1 && <div className="inputs"><InputJuego1 jugador="jugador2" onComplete={handleCompleteJuego1} /></div>}
-        {currentInput === 2 && <div className="inputs"><InputJuego2 jugador="jugador2" onComplete={handleCompleteJuego2} /></div>}
-        {currentInput === 3 && <div className="inputs"><InputJuego3 jugador="jugador2" onComplete={handleCompleteJuego3} /></div>}
-        {currentInput === 4 && <div className="inputs"><InputJuego4 jugador="jugador2" onComplete={handleCompleteJuego4} /></div>}
-        {currentInput === 5 && <div className="inputs"><InputJuego5 jugador="jugador2" onComplete={handleCompleteJuego5} /></div>}
-        {currentInput === 6 && <div className="inputs"><InputJuego6 jugador="jugador2" onComplete={handleCompleteJuego6} /></div>}
-        {currentInput === 7 && <div className="inputs"><InputJuego7 jugador="jugador2" onComplete={handleCompleteJuego7} /></div>}
-        {currentInput === 8 && <div className="inputs"><InputJuego8 jugador="jugador2" onComplete={handleCompleteJuego8} /></div>}
+        {currentInput === 1 && <div className="inputs"><InputJuego1 jugador="jugador2" onComplete={handleCompleteJuego1} key={`${nombre}-input1`} /></div>}
+        {currentInput === 2 && <div className="inputs"><InputJuego2 jugador="jugador2" onComplete={handleCompleteJuego2} key={`${nombre}-input2`} /></div>}
+        {currentInput === 3 && <div className="inputs"><InputJuego3 jugador="jugador2" onComplete={handleCompleteJuego3} key={`${nombre}-input3`} /></div>}
+        {currentInput === 4 && <div className="inputs"><InputJuego4 jugador="jugador2" onComplete={handleCompleteJuego4} key={`${nombre}-input4`} /></div>}
+        {currentInput === 5 && <div className="inputs"><InputJuego5 jugador="jugador2" onComplete={handleCompleteJuego5} key={`${nombre}-input5`} /></div>}
+        {currentInput === 6 && <div className="inputs"><InputJuego6 jugador="jugador2" onComplete={handleCompleteJuego6} key={`${nombre}-input6`} /></div>}
+        {currentInput === 7 && <div className="inputs"><InputJuego7 jugador="jugador2" onComplete={handleCompleteJuego7} key={`${nombre}-input7`} /></div>}
+        {currentInput === 8 && <div className="inputs"><InputJuego8 jugador="jugador2" onComplete={handleCompleteJuego8} key={`${nombre}-input8`} /></div>}
       </div>
       <SumaPuntos jugador="jugador2" />
       <TablaResultados jugador="jugador2" />
-      <TablaTodosJugadores/>
+      <TablaTodosJugadores />
       <div className="link"><Link href="/">Home</Link></div>
     </div>
   );
