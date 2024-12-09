@@ -37,7 +37,12 @@
     justify-content: center;
 }
 .tablaTotal {
-    padding-top: 30px;
+    display: flex;
+    flex-direction: column;
+    width:350px;
+    padding-top: -20px;
+    align-items: center;
+    justify-content: center;
 }
 .botones {
     display: flex;
