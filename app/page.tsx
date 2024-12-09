@@ -7,7 +7,7 @@ import TablaTodosJugadores from "../app/componentes/TablaTodosJugadores"; // Imp
 export default function Home() {
   return (
     <div className="topcontainer">
-      <div className="titulo">Bienvenidos a Padel World Americanas</div>
+      <div className="titulo">Padel Score Americanas</div>
       
        <div className="tablaTotal">
         <TablaTodosJugadores />
