@@ -8,6 +8,7 @@ import { db } from "../firebase"; // Ajusta la ruta según la ubicación de tu a
 import { doc, getDoc } from "firebase/firestore";
 import TablaTodosJugadores from "../app/componentes/TablaTodosJugadores"; // Importar el componente correcto
 import SvgBackground from "../app/componentes/SvgBackground"; // Importar el componente SVG
+import JuegoSelector from "../app/componentes/JuegoSelector"
 
 interface Nombres {
   jugador1: string;
@@ -63,7 +64,9 @@ export default function Home() {
     <div className="topcontainer">
       <SvgBackground />
       <div className="titulo">Padel Score Americanas</div>
+      
       <div className="tablaTotal">
+      <JuegoSelector/>
         <TablaTodosJugadores />
       </div>
       <div className="tablaTotal">

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '../../firebase';
 import { doc, updateDoc } from "firebase/firestore";
 
 const InputJuego2 = ({ onComplete, jugador }) => {
@@ -10,9 +10,11 @@ const InputJuego2 = ({ onComplete, jugador }) => {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const savedValue = localStorage.getItem(`${jugador}-juego2`);
-    if (savedValue) {
-      setValue(savedValue);
+    if (typeof window !== 'undefined') {
+      const savedValue = localStorage.getItem(`${jugador}-juego2`);
+      if (savedValue) {
+        setValue(savedValue);
+      }
     }
   }, [jugador]);
 
@@ -33,15 +35,14 @@ const InputJuego2 = ({ onComplete, jugador }) => {
       try {
         const jugadorRef = doc(db, "padel", jugador);
 
-        // Actualiza el campo j2 del documento del jugador en Firestore
-        await updateDoc(jugadorRef, {
-          j2: Number(value)
-        });
-        localStorage.setItem(`${jugador}-juego2`, value); // Guardar el valor en localStorage
+        await updateDoc(jugadorRef, { j2: Number(value) });
+        if (typeof window !== 'undefined') {
+          localStorage.setItem(`${jugador}-juego2`, value);
+        }
         alert('Puntos registrados: ' + value);
-        setValue(''); // Limpiar el campo después de enviar los datos
-        setError(''); // Limpiar el mensaje de error
-        onComplete(); // Notificar al componente padre
+        setValue('');
+        setError('');
+        onComplete();
         window.location.reload();
       } catch (error) {
         console.error("Error al registrar los puntos: ", error);
@@ -51,26 +52,32 @@ const InputJuego2 = ({ onComplete, jugador }) => {
   };
 
   return (
-    <div className="row g-3 align-items-center">
-      <div className="col-auto">
-        <label htmlFor="juego2" className="col-form-label">Juego 2</label>
+    <div className="container">
+      <div className="row g-3 align-items-center">
+        <div className="col-auto">
+          <label htmlFor="juego2" className="col-form-label">Juego 2</label>
+        </div>
+        <div className="col-auto">
+          <input 
+            type="text" 
+            id="juego2" 
+            className="form-control" 
+            value={value} 
+            onChange={handleChange} 
+            placeholder="Ingrese los puntos"
+            aria-describedby="inputHelpInline"
+          />
+        </div>
+        <div className="col-auto">
+          {error && <div className="alert alert-danger" role="alert" id="inputHelpInline">{error}</div>}
+        </div>
+        <div className="col-12 d-flex justify-content-center">
+          <button className="btn btn-primary mt-3" onClick={handleSubmit}>Registrar Puntos</button>
+        </div>
       </div>
-      <div className="col-auto">
-        <input 
-          type="text" 
-          id="juego2" 
-          className="form-control" 
-          value={value} 
-          onChange={handleChange} 
-          placeholder="Ingrese los puntos"
-          aria-describedby="inputHelpInline"
-        />
-      </div>
-      <div className="col-auto">
-        {error && <div className="alert alert-danger" role="alert" id="inputHelpInline">{error}</div>}
-      </div>
-      <div className="col-12 d-flex justify-content-center">
-        <button className="btn btn-primary mt-3" onClick={handleSubmit}>Registrar Puntos</button>
+      <div className="row">
+        <div className="col-12 mt-4">
+        </div>
       </div>
     </div>
   );

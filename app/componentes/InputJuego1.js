@@ -8,6 +8,7 @@ import { doc, updateDoc } from "firebase/firestore";
 const InputJuego1 = ({ onComplete, jugador }) => {
   const [value, setValue] = useState('');
   const [error, setError] = useState('');
+  
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -52,26 +53,32 @@ const InputJuego1 = ({ onComplete, jugador }) => {
   };
 
   return (
-    <div className="row g-3 align-items-center">
-      <div className="col-auto">
-        <label htmlFor="juego1" className="col-form-label">Juego 1</label>
+    <div className="container">
+      <div className="col g-3 align-items-center">
+        <div className="col-auto align-items-center">
+          <label htmlFor="juego1" className="col-form-label alig-items-center">Juego 1</label>
+        </div>
+        <div className="col-auto">
+          <input 
+            type="text" 
+            id="juego1" 
+            className="form-control" 
+            value={value} 
+            onChange={handleChange} 
+            placeholder="Ingrese los puntos"
+            aria-describedby="inputHelpInline"
+          />
+        </div>
+        <div className="col-auto">
+          {error && <div className="alert alert-danger" role="alert" id="inputHelpInline">{error}</div>}
+        </div>
+        <div className="col-12 d-flex justify-content-center">
+          <button className="btn btn-primary mt-3" onClick={handleSubmit}>Registrar Puntos</button>
+        </div>
       </div>
-      <div className="col-auto">
-        <input 
-          type="text" 
-          id="juego1" 
-          className="form-control" 
-          value={value} 
-          onChange={handleChange} 
-          placeholder="Ingrese los puntos"
-          aria-describedby="inputHelpInline"
-        />
-      </div>
-      <div className="col-auto">
-        {error && <div className="alert alert-danger" role="alert" id="inputHelpInline">{error}</div>}
-      </div>
-      <div className="col-12 d-flex justify-content-center">
-        <button className="btn btn-primary mt-3" onClick={handleSubmit}>Registrar Puntos</button>
+      <div className="row">
+        <div className="col-12 mt-4">
+        </div>
       </div>
     </div>
   );

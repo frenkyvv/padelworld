@@ -15,7 +15,8 @@ import InputJuego8 from "../componentes/InputJuego8";
 import SumaPuntos from "../componentes/SumaPuntos";
 import TablaResultados from "../componentes/TablaResultados";
 import TablaTodosJugadores from '../componentes/TablaTodosJugadores';
-import NombreJugador from "../componentes/NombreJugador"; // Importar el nuevo componente
+import NombreJugador from "../componentes/NombreJugador";
+
 
 export default function Jugador1() {
   const [currentInput, setCurrentInput] = useState(1);

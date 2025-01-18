@@ -66,6 +66,7 @@ const InputJuego3 = ({ onComplete, jugador }) => {
           aria-describedby="inputHelpInline"
         />
       </div>
+      
       <div className="col-auto">
         {error && <div className="alert alert-danger" role="alert" id="inputHelpInline">{error}</div>}
       </div>
