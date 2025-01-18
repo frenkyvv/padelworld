@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
 import { collection, getDocs } from "firebase/firestore";
+import Link from 'next/link';
 
 const TablaTodosJugadores = () => {
   const [resultados, setResultados] = useState([]);
@@ -60,7 +61,11 @@ const TablaTodosJugadores = () => {
         <tbody>
           {resultados.map((jugador, index) => (
             <tr key={jugador.nombre || `jugador-${index}`}>
-              <td className="text-center">{jugador.nombre || `J ${index + 1}`}</td>
+              <td className="text-center">
+                <Link href={`/jugador${index + 1}`}>
+                  {jugador.nombre || `J ${index + 1}`}
+                </Link>
+              </td>
               <td className="text-center">{jugador.j1 || 0}</td>
               <td className="text-center">{jugador.j2 || 0}</td>
               <td className="text-center">{jugador.j3 || 0}</td>

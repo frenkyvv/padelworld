@@ -2,7 +2,6 @@
 
 import "../app/styles.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Link from "next/link";
 import { useState, useEffect } from "react";
 import { db } from "../firebase"; // Ajusta la ruta según la ubicación de tu archivo
 import { doc, getDoc } from "firebase/firestore";
@@ -73,7 +72,7 @@ export default function Home() {
         <div className="container mt-5">
           <div className="row">
             <div className="col">
-              <table className="table table-bordered text-center">
+              {/* <table className="table table-bordered text-center">
                 <tbody>
                   <tr>
                     <td>
@@ -124,7 +123,7 @@ export default function Home() {
                     </td>
                   </tr>
                 </tbody>
-              </table>
+              </table> */}
             </div>
           </div>
         </div>
