@@ -1,10 +1,38 @@
 'use client'
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { db } from '../../firebase';
+import { collection, getDocs } from "firebase/firestore";
+import Juego1 from './casos/Juego1'; 
+import Juego2 from './casos/Juego2';
+import Juego3 from './casos/Juego3';
+import Juego4 from './casos/Juego4';
+import Juego5 from './casos/Juego5';
+import Juego6 from './casos/Juego6';
+import Juego7 from './casos/Juego7';
+import Juego8 from './casos/Juego8';
 
 const JuegoSelector = () => {
   const [juegoSeleccionado, setJuegoSeleccionado] = useState('Juego 1');
+  const [jugadores, setJugadores] = useState({});
+
+  useEffect(() => {
+    const fetchJugadores = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "padel"));
+        const jugadoresData = {};
+        querySnapshot.forEach(doc => {
+          jugadoresData[doc.id] = doc.data().nombre || doc.id;
+        });
+        setJugadores(jugadoresData);
+      } catch (error) {
+        console.error("Error al obtener los datos: ", error);
+      }
+    };
+
+    fetchJugadores();
+  }, []);
 
   const handleJuegoChange = (e) => {
     setJuegoSeleccionado(e.target.value);
@@ -13,350 +41,22 @@ const JuegoSelector = () => {
   const renderTabla = () => {
     switch (juegoSeleccionado) {
       case 'Juego 1':
-        return (
-          <div>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 1</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Obed</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Daniel</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Victor</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Frenky</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Emilio</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Memo</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Alan</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Yuyu</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Juego1 jugadores={jugadores} />;
       case 'Juego 2':
-        return (
-          <div>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 1</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Obed</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Emilio</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Daniel</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Memo</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Victor</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Alan</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Frenky</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Yuyu</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Juego2 jugadores={jugadores} />;
       case 'Juego 3':
-        return (
-          <div>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 1</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Obed</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Alan</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Frenky</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Memo</td>
-                </tr>
-              </tbody>
-            </table>
-            <table className="table table-bordered">
-              <thead>
-                <tr>
-                  <th colSpan="3" className="text-center">Cancha 2</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td className="text-center">Victor</td>
-                  <td className="text-center">VS</td>
-                  <td className="text-center">Emilio</td>
-                </tr>
-                <tr>
-                  <td className="text-center">Daniel</td>
-                  <td className="text-center"></td>
-                  <td className="text-center">Yuyu</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        );
+        return <Juego3 jugadores={jugadores} />;
       case 'Juego 4':
-            return (
-              <div>
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th colSpan="3" className="text-center">Cancha 1</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-center">Obed</td>
-                      <td className="text-center">VS</td>
-                      <td className="text-center">Victor</td>
-                    </tr>
-                    <tr>
-                      <td className="text-center">Emilio</td>
-                      <td className="text-center"></td>
-                      <td className="text-center">Alan</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th colSpan="3" className="text-center">Cancha 2</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-center">Daniel</td>
-                      <td className="text-center">VS</td>
-                      <td className="text-center">Frenky</td>
-                    </tr>
-                    <tr>
-                      <td className="text-center">Memo</td>
-                      <td className="text-center"></td>
-                      <td className="text-center">Yuyu</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            );
+        return <Juego4 jugadores={jugadores} />;
       case 'Juego 5':
-                return (
-                  <div>
-                    <table className="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th colSpan="3" className="text-center">Cancha 1</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="text-center">Obed</td>
-                          <td className="text-center">VS</td>
-                          <td className="text-center">Daniel</td>
-                        </tr>
-                        <tr>
-                          <td className="text-center">Alan</td>
-                          <td className="text-center"></td>
-                          <td className="text-center">Yuyu</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                    <table className="table table-bordered">
-                      <thead>
-                        <tr>
-                          <th colSpan="3" className="text-center">Cancha 2</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="text-center">Victor</td>
-                          <td className="text-center">VS</td>
-                          <td className="text-center">Frenky</td>
-                        </tr>
-                        <tr>
-                          <td className="text-center">Memo</td>
-                          <td className="text-center"></td>
-                          <td className="text-center">Emilio</td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                );
+          return <Juego5 jugadores={jugadores} />;
       case 'Juego 6':
-            return (
-              <div>
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th colSpan="3" className="text-center">Cancha 1</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-center">Obed</td>
-                      <td className="text-center">VS</td>
-                      <td className="text-center">Victor</td>
-                    </tr>
-                    <tr>
-                      <td className="text-center">Memo</td>
-                      <td className="text-center"></td>
-                      <td className="text-center">Yuyu</td>
-                    </tr>
-                  </tbody>
-                </table>
-                <table className="table table-bordered">
-                  <thead>
-                    <tr>
-                      <th colSpan="3" className="text-center">Cancha 2</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td className="text-center">Daniel</td>
-                      <td className="text-center">VS</td>
-                      <td className="text-center">Frenky</td>
-                    </tr>
-                    <tr>
-                      <td className="text-center">Emilio</td>
-                      <td className="text-center"></td>
-                      <td className="text-center">Alan</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            );
+        return <Juego6 jugadores={jugadores} />;
       case 'Juego 7':
-        return (
-            <div>
-            <table className="table table-bordered">
-                <thead>
-                <tr>
-                    <th colSpan="3" className="text-center">Cancha 1</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className="text-center">Obed</td>
-                    <td className="text-center">VS</td>
-                    <td className="text-center">Frenky</td>
-                </tr>
-                <tr>
-                    <td className="text-center">Yuyu</td>
-                    <td className="text-center"></td>
-                    <td className="text-center">Memo</td>
-                </tr>
-                </tbody>
-            </table>
-            <table className="table table-bordered">
-                <thead>
-                <tr>
-                    <th colSpan="3" className="text-center">Cancha 2</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className="text-center">Victor</td>
-                    <td className="text-center">VS</td>
-                    <td className="text-center">Daniel</td>
-                </tr>
-                <tr>
-                    <td className="text-center">Emilio</td>
-                    <td className="text-center"></td>
-                    <td className="text-center">Alan</td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
-        );
+        return <Juego7 jugadores={jugadores} />;
       case 'Juego 8':
-        return (
-            <div>
-            <table className="table table-bordered">
-                <thead>
-                <tr>
-                    <th colSpan="3" className="text-center">Cancha 1</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className="text-center">Victor</td>
-                    <td className="text-center">VS</td>
-                    <td className="text-center">Emilio</td>
-                </tr>
-                <tr>
-                    <td className="text-center">Frenky</td>
-                    <td className="text-center"></td>
-                    <td className="text-center">Memo</td>
-                </tr>
-                </tbody>
-            </table>
-            <table className="table table-bordered">
-                <thead>
-                <tr>
-                    <th colSpan="3" className="text-center">Cancha 2</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td className="text-center">Obed</td>
-                    <td className="text-center">VS</td>
-                    <td className="text-center">Alan</td>
-                </tr>
-                <tr>
-                    <td className="text-center">Daniel</td>
-                    <td className="text-center"></td>
-                    <td className="text-center">Yuyu</td>
-                </tr>
-                </tbody>
-            </table>
-            </div>
-        );
-            default:
+        return <Juego8 jugadores={jugadores} />;
+      default:
         return null;
     }
   };

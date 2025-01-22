@@ -65,7 +65,7 @@ export default function Home() {
       <div className="titulo">Padel Score Americanas</div>
       
       <div className="tablaTotal">
-      <JuegoSelector/>
+        <JuegoSelector/>
         <TablaTodosJugadores />
       </div>
       <div className="tablaTotal">
