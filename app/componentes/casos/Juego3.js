@@ -147,7 +147,9 @@ const Juego3 = ({ jugadores }) => {
           </tr>
         </tbody>
       </table>
+      <div className="botones">
       <button className="btn btn-primary mt-3" onClick={handleSubmit}>Registrar Puntos</button>
+      </div>
     </div>
   );
 };

@@ -31,14 +31,12 @@ const BorrarTodosNombres = () => {
   };
 
   return (
-    <div className="botones">
     <div className="container mt-5">
-      <h3>Borrar Todos los Nombres</h3>
       <button className="btn btn-danger" onClick={handleDeleteAll} disabled={loading}>
         {loading ? 'Borrando...' : 'Borrar Todos los Nombres'}
       </button>
     </div>
-    </div>
+  
   );
 };
 

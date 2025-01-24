@@ -43,19 +43,19 @@ export default function Home() {
     jugador8: "Jugador 8",
   });
 
-  useEffect(() => {
-    const fetchNombres = async () => {
-      const nombresTemp = { ...nombres };
-      for (const jugador of jugadores) {
-        const jugadorRef = doc(db, "padel", jugador);
-        const docSnap = await getDoc(jugadorRef);
-        if (docSnap.exists() && docSnap.data().nombre) {
-          nombresTemp[jugador as keyof Nombres] = docSnap.data().nombre;
-        }
+  const fetchNombres = async () => {
+    const nombresTemp = { ...nombres };
+    for (const jugador of jugadores) {
+      const jugadorRef = doc(db, "padel", jugador);
+      const docSnap = await getDoc(jugadorRef);
+      if (docSnap.exists() && docSnap.data().nombre) {
+        nombresTemp[jugador as keyof Nombres] = docSnap.data().nombre;
       }
-      setNombres(nombresTemp);
-    };
+    }
+    setNombres(nombresTemp);
+  };
 
+  useEffect(() => {
     fetchNombres();
   }, []);
 
@@ -72,58 +72,6 @@ export default function Home() {
         <div className="container mt-5">
           <div className="row">
             <div className="col">
-              {/* <table className="table table-bordered text-center">
-                <tbody>
-                  <tr>
-                    <td>
-                      <Link href="/jugador1" className="d-block">
-                        {nombres.jugador1}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link href="/jugador2" className="d-block">
-                        {nombres.jugador2}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href="/jugador3" className="d-block">
-                        {nombres.jugador3}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link href="/jugador4" className="d-block">
-                        {nombres.jugador4}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href="/jugador5" className="d-block">
-                        {nombres.jugador5}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link href="/jugador6" className="d-block">
-                        {nombres.jugador6}
-                      </Link>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>
-                      <Link href="/jugador7" className="d-block">
-                        {nombres.jugador7}
-                      </Link>
-                    </td>
-                    <td>
-                      <Link href="/jugador8" className="d-block">
-                        {nombres.jugador8}
-                      </Link>
-                    </td>
-                  </tr>
-                </tbody>
-              </table> */}
             </div>
           </div>
         </div>

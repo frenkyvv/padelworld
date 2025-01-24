@@ -1,29 +1,18 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PropTypes from 'prop-types';
 import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
-import { doc, updateDoc, getDoc } from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 
-const NombreJugador = ({ jugador, onComplete }) => {
+const NombreJugador = () => {
   const [nombre, setNombre] = useState('');
-  const [showInput, setShowInput] = useState(true);
+  const [jugadorSeleccionado, setJugadorSeleccionado] = useState('jugador1');
+  const [showInput, setShowInput] = useState(false);
 
-  useEffect(() => {
-    const checkNombre = async () => {
-      const jugadorRef = doc(db, "padel", jugador);
-      const docSnap = await getDoc(jugadorRef);
-      if (docSnap.exists() && docSnap.data().nombre) {
-        onComplete(docSnap.data().nombre);
-        setShowInput(false);
-      } else {
-        setShowInput(true);
-      }
-    };
-
-    checkNombre();
-  }, [jugador, onComplete]);
+  const handleShowInput = () => {
+    setShowInput(true);
+  };
 
   const handleSave = async () => {
     if (nombre.trim() === '') {
@@ -32,9 +21,9 @@ const NombreJugador = ({ jugador, onComplete }) => {
     }
 
     try {
-      const jugadorRef = doc(db, "padel", jugador);
+      const jugadorRef = doc(db, "padel", jugadorSeleccionado);
       await updateDoc(jugadorRef, { nombre });
-      onComplete(nombre);
+      alert(`Nombre de ${jugadorSeleccionado} guardado: ${nombre}`);
       window.location.reload();
       setShowInput(false);
     } catch (error) {
@@ -45,14 +34,30 @@ const NombreJugador = ({ jugador, onComplete }) => {
 
   return (
     <>
+      <button className="btn btn-primary" onClick={handleShowInput}>Modificar Nombre del Jugador</button>
+
       {showInput && (
         <div className="modal" style={{ display: 'block', backgroundColor: 'rgba(0,0,0,0.5)' }}>
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title">Ingrese su nombre</h5>
+                <h5 className="modal-title">Seleccione el jugador e ingrese su nombre</h5>
               </div>
               <div className="modal-body">
+                <select 
+                  className="form-select mb-3"
+                  value={jugadorSeleccionado}
+                  onChange={(e) => setJugadorSeleccionado(e.target.value)}
+                >
+                  <option value="jugador1">Jugador 1</option>
+                  <option value="jugador2">Jugador 2</option>
+                  <option value="jugador3">Jugador 3</option>
+                  <option value="jugador4">Jugador 4</option>
+                  <option value="jugador5">Jugador 5</option>
+                  <option value="jugador6">Jugador 6</option>
+                  <option value="jugador7">Jugador 7</option>
+                  <option value="jugador8">Jugador 8</option>
+                </select>
                 <input 
                   type="text" 
                   className="form-control" 
@@ -70,11 +75,6 @@ const NombreJugador = ({ jugador, onComplete }) => {
       )}
     </>
   );
-};
-
-NombreJugador.propTypes = {
-  jugador: PropTypes.string.isRequired,
-  onComplete: PropTypes.func.isRequired
 };
 
 export default NombreJugador;

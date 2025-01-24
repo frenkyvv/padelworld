@@ -65,7 +65,9 @@ const JuegoSelector = () => {
     <div className="container mt-4">
       <div className="row">
         <div className="col-12">
-          <label htmlFor="juegoSelect" className="form-label">Selecciona un juego</label>
+        <div className="titulo" style={{ paddingTop: '-10px', paddingBottom: '-10px' }}>
+  <label htmlFor="juegoSelect" className="form-label">Selecciona un juego</label>
+</div>
           <select className="form-select" id="juegoSelect" value={juegoSeleccionado} onChange={handleJuegoChange}>
             <option value="Juego 1">Juego 1</option>
             <option value="Juego 2">Juego 2</option>

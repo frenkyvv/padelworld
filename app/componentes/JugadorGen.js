@@ -12,8 +12,6 @@ import InputJuego6 from "../componentes/InputJuego6";
 import InputJuego7 from "../componentes/InputJuego7";
 import InputJuego8 from "../componentes/InputJuego8";
 import SumaPuntos from "../componentes/SumaPuntos";
-import TablaResultados from "../componentes/TablaResultados";
-import TablaTodosJugadores from '../componentes/TablaTodosJugadores';
 import NombreJugador from "../componentes/NombreJugador";
 
 const JugadorGen = ({ numero, currentInput, nombre, onNombreComplete, onJuegoChange, onComplete }) => {
@@ -47,8 +45,7 @@ const JugadorGen = ({ numero, currentInput, nombre, onNombreComplete, onJuegoCha
       </div>
 
       <SumaPuntos jugador={`jugador${numero}`} />
-      <TablaResultados jugador={`jugador${numero}`} />
-      <TablaTodosJugadores />
+      
     </>
   );
 };

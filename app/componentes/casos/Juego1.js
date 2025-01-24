@@ -90,6 +90,7 @@ const Juego1 = ({ jugadores }) => {
                 value={resultados.jugador4}
                 onChange={(e) => handleChange(e, 'jugador4')}
                 style={{ width: '60px' }}
+                className="no-arrows"
               />
             </td>
             <td className="text-center">{jugadores.jugador4 || 'jugador4'}</td>

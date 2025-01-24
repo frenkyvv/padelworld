@@ -12,6 +12,7 @@
   font-size: 24px;
   padding-bottom: 30px;
   padding-top: 30px;
+  font-weight: bold;
 }
 .subtitulo {
   display: flex;
@@ -19,7 +20,8 @@
   justify-content: center;
   align-items: center;
   width: 300px;
-  padding-top: 30px;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 .link {
   text-decoration: overline;
@@ -42,6 +44,12 @@
   align-items: center;
   justify-content: center;
 }
+.borrar{
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
 .botones {
   display: flex;
   flex-direction: column;
@@ -49,6 +57,9 @@
   margin: 20px;
   align-items: center;
   justify-content: center;
+}
+.padd{
+  padding-top: 20px;
 }
 .svg-background {
   position: fixed;

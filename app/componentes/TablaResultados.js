@@ -1,71 +1,55 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '../../firebase'; // Asegúrate de ajustar la ruta según sea necesario
 import { doc, getDoc } from "firebase/firestore";
 
-const TablaResultados = ({ jugador }) => {
-  const [resultados, setResultados] = useState({
-    j1: 0,
-    j2: 0,
-    j3: 0,
-    j4: 0,
-    j5: 0,
-    j6: 0,
-    j7: 0,
-    j8: 0
-  });
-  const [nombre, setNombre] = useState('');
+const TablaResultados = ({ numero }) => {
+  const [resultados, setResultados] = useState([]);
+  const [totalPuntos, setTotalPuntos] = useState(0);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const jugadorRef = doc(db, "padel", jugador);
-        const docSnap = await getDoc(jugadorRef);
+    const fetchResultados = async () => {
+      const jugadorRef = doc(db, 'padel', `jugador${numero}`);
+      const jugadorSnap = await getDoc(jugadorRef);
 
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          const filteredData = {
-            j1: data.j1 || 0,
-            j2: data.j2 || 0,
-            j3: data.j3 || 0,
-            j4: data.j4 || 0,
-            j5: data.j5 || 0,
-            j6: data.j6 || 0,
-            j7: data.j7 || 0,
-            j8: data.j8 || 0,
-          };
-          setResultados(filteredData);
-          setNombre(data.nombre || jugador.charAt(0).toUpperCase() + jugador.slice(1));
-        } else {
-          console.log("No such document!");
-        }
-      } catch (error) {
-        console.error("Error al obtener los puntos: ", error);
+      if (jugadorSnap.exists()) {
+        const data = jugadorSnap.data();
+        const juegos = ['j1', 'j2', 'j3', 'j4', 'j5', 'j6', 'j7', 'j8'];
+
+        const results = juegos.map(juego => ({ juego, puntos: data[juego] || 0 }));
+        setResultados(results);
+
+        // Calcular la sumatoria de todos los puntos
+        const total = results.reduce((acc, resultado) => acc + resultado.puntos, 0);
+        setTotalPuntos(total);
+      } else {
+        console.log("No such document!");
       }
     };
 
-    fetchData();
-  }, [jugador]);
+    fetchResultados();
+  }, [numero]);
 
   return (
-    <div className="table-responsive">
-      <table className="table table-striped table-bordered">
+    <div>
+      <h3>Resultados de {numero}</h3>
+      <table className="table table-bordered text-center">
         <thead>
           <tr>
-            <th scope="col" className="text-center">Jugador</th>
-            {Object.keys(resultados).map((juego) => (
-              <th scope="col" className="text-center" key={juego}>{juego.toUpperCase()}</th>
+            {resultados.map((resultado, index) => (
+              <th key={index}>{resultado.juego.slice(1)}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td className="text-center">{nombre}</td>
-            {Object.values(resultados).map((puntos, index) => (
-              <td className="text-center" key={index}>{puntos}</td>
+            {resultados.map((resultado, index) => (
+              <td key={index}>{resultado.puntos}</td>
             ))}
+          </tr>
+          <tr>
+            <td colSpan={8} style={{ textAlign: 'center', fontWeight: 'bold' }}>Total de Puntos: {totalPuntos}</td>
           </tr>
         </tbody>
       </table>
