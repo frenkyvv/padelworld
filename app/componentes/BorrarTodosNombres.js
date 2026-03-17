@@ -2,14 +2,9 @@
 
 import '../styles.css';
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '@/lib/firebase';
 import { doc, updateDoc } from "firebase/firestore";
-
-const jugadores = [
-  'jugador1', 'jugador2', 'jugador3', 'jugador4',
-  'jugador5', 'jugador6', 'jugador7', 'jugador8'
-];
+import { PLAYER_IDS } from '@/lib/padel';
 
 const BorrarTodosNombres = () => {
   const [loading, setLoading] = useState(false);
@@ -17,7 +12,7 @@ const BorrarTodosNombres = () => {
   const handleDeleteAll = async () => {
     setLoading(true);
     try {
-      for (const jugador of jugadores) {
+      for (const jugador of PLAYER_IDS) {
         const jugadorRef = doc(db, "padel", jugador);
         await updateDoc(jugadorRef, { nombre: null });
       }

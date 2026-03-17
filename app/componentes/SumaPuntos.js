@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '@/lib/firebase';
 import { doc, getDoc } from "firebase/firestore";
+import { getDefaultPlayerName, getTotalPoints } from '@/lib/padel';
 
 const SumaPuntos = ({ jugador }) => {
   const [totalPuntos, setTotalPuntos] = useState(0);
@@ -17,7 +17,7 @@ const SumaPuntos = ({ jugador }) => {
 
         if (docSnap.exists()) {
           const data = docSnap.data();
-          const total = (data.j1 || 0) + (data.j2 || 0) + (data.j3 || 0) + (data.j4 || 0) + (data.j5 || 0) + (data.j6 || 0) + (data.j7 || 0) + (data.j8 || 0);
+          const total = getTotalPoints(data);
           setTotalPuntos(total);
           if (data.nombre) {
             setNombre(data.nombre);
@@ -35,7 +35,7 @@ const SumaPuntos = ({ jugador }) => {
 
   return (
     <div className="total-puntos">
-      <h5>Total de {nombre || jugador.charAt(0).toUpperCase() + jugador.slice(1)}: {totalPuntos}</h5>
+      <h5>Total de {nombre || getDefaultPlayerName(jugador)}: {totalPuntos}</h5>
     </div>
   );
 };

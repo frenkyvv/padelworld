@@ -2,17 +2,12 @@
 
 import '../styles.css';
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '@/lib/firebase';
 import { doc, updateDoc } from "firebase/firestore";
-
-const jugadores = [
-  'jugador1', 'jugador2', 'jugador3', 'jugador4',
-  'jugador5', 'jugador6', 'jugador7', 'jugador8'
-];
+import { PLAYER_IDS } from '@/lib/padel';
 
 const BorrarNombre = () => {
-  const [selectedJugador, setSelectedJugador] = useState(jugadores[0]);
+  const [selectedJugador, setSelectedJugador] = useState(PLAYER_IDS[0]);
   const [loading, setLoading] = useState(false);
 
   const handleDelete = async () => {
@@ -41,7 +36,7 @@ const BorrarNombre = () => {
           value={selectedJugador}
           onChange={(e) => setSelectedJugador(e.target.value)}
         >
-          {jugadores.map((jugador) => (
+          {PLAYER_IDS.map((jugador) => (
             <option key={jugador} value={jugador}>
               {jugador.charAt(0).toUpperCase() + jugador.slice(1)}
             </option>

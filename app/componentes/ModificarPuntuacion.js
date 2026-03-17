@@ -1,22 +1,13 @@
 'use client'
 
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '@/lib/firebase';
 import { doc, updateDoc } from "firebase/firestore";
-
-const jugadores = [
-  'jugador1', 'jugador2', 'jugador3', 'jugador4',
-  'jugador5', 'jugador6', 'jugador7', 'jugador8'
-];
-
-const juegos = [
-  'j1', 'j2', 'j3', 'j4', 'j5', 'j6', 'j7', 'j8'
-];
+import { GAME_FIELDS, PLAYER_IDS } from '@/lib/padel';
 
 const ModificarPuntuacion = () => {
-  const [selectedJugador, setSelectedJugador] = useState(jugadores[0]);
-  const [selectedJuego, setSelectedJuego] = useState(juegos[0]);
+  const [selectedJugador, setSelectedJugador] = useState(PLAYER_IDS[0]);
+  const [selectedJuego, setSelectedJuego] = useState(GAME_FIELDS[0]);
   const [cantidad, setCantidad] = useState('');
 
   const handleUpdate = async () => {
@@ -50,7 +41,7 @@ const ModificarPuntuacion = () => {
           value={selectedJugador}
           onChange={(e) => setSelectedJugador(e.target.value)}
         >
-          {jugadores.map((jugador) => (
+          {PLAYER_IDS.map((jugador) => (
             <option key={jugador} value={jugador}>
               {jugador.charAt(0).toUpperCase() + jugador.slice(1)}
             </option>
@@ -65,7 +56,7 @@ const ModificarPuntuacion = () => {
           value={selectedJuego}
           onChange={(e) => setSelectedJuego(e.target.value)}
         >
-          {juegos.map((juego) => (
+          {GAME_FIELDS.map((juego) => (
             <option key={juego} value={juego}>
               {juego.toUpperCase()}
             </option>

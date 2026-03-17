@@ -1,13 +1,13 @@
 'use client'
 
 import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { db } from '../../firebase'; // Ajusta la ruta según la ubicación de tu archivo
+import { db } from '@/lib/firebase';
 import { doc, updateDoc } from "firebase/firestore";
+import { PLAYER_IDS } from '@/lib/padel';
 
-const NombreJugador = () => {
+const NombreJugador = ({ jugador = null, onComplete = undefined } = {}) => {
   const [nombre, setNombre] = useState('');
-  const [jugadorSeleccionado, setJugadorSeleccionado] = useState('jugador1');
+  const [jugadorSeleccionado, setJugadorSeleccionado] = useState(jugador || PLAYER_IDS[0]);
   const [showInput, setShowInput] = useState(false);
 
   const handleShowInput = () => {
@@ -24,6 +24,7 @@ const NombreJugador = () => {
       const jugadorRef = doc(db, "padel", jugadorSeleccionado);
       await updateDoc(jugadorRef, { nombre });
       alert(`Nombre de ${jugadorSeleccionado} guardado: ${nombre}`);
+      onComplete?.();
       window.location.reload();
       setShowInput(false);
     } catch (error) {
