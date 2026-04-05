@@ -9,11 +9,13 @@ import { db } from "@/lib/firebase";
 import {
   GAME_NUMBERS,
   PLAYER_IDS,
+  PLAYER_SESSION_STORAGE_KEY,
   getCourtForGame,
   getGameLabel,
   type GameNumber,
   type PlayerDocument,
   type PlayerId,
+  type PlayerSession,
 } from "@/lib/padel";
 
 interface CourtPageViewProps {
@@ -30,8 +32,19 @@ export default function CourtPageView({
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
   const [refreshToken, setRefreshToken] = useState(0);
+  const [session, setSession] = useState<PlayerSession | null>(null);
 
   useEffect(() => {
+    const savedSession = localStorage.getItem(PLAYER_SESSION_STORAGE_KEY);
+    if (savedSession) {
+      try {
+        setSession(JSON.parse(savedSession) as PlayerSession);
+      } catch (parseError) {
+        console.error("No se pudo leer la sesion guardada: ", parseError);
+        localStorage.removeItem(PLAYER_SESSION_STORAGE_KEY);
+      }
+    }
+
     const fetchPlayers = async () => {
       try {
         const querySnapshot = await getDocs(collection(db, "padel"));
@@ -77,6 +90,10 @@ export default function CourtPageView({
     );
   }
 
+  const canEditCourt = session
+    ? [...court.teamA, ...court.teamB].includes(session.playerId)
+    : false;
+
   return (
     <div className="topcontainer">
       <div className="titulo">
@@ -92,6 +109,7 @@ export default function CourtPageView({
           gameNumber={gameNumber}
           players={players}
           playerDocuments={playerDocuments}
+          canEdit={canEditCourt}
           onSaved={() => setRefreshToken((currentValue) => currentValue + 1)}
         />
       </div>

@@ -35,7 +35,10 @@ export default function RoundCourtCards({
         const isSubmitted = submissionStatus === "complete";
 
         return (
-          <div className="col-12 col-md-6 col-xl-4" key={court.courtLabel}>
+          <div
+            className="col-12 col-sm-6 col-lg-4 col-xl-3 role-card-column"
+            key={court.courtLabel}
+          >
             <div className="card h-100 shadow-sm role-card">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">

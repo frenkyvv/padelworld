@@ -20,6 +20,7 @@ export const TOURNAMENT_CONFIG = {
 export type PlayerId = string;
 export type GameNumber = number;
 export type GameField = `j${number}`;
+export const PLAYER_SESSION_STORAGE_KEY = "padel-player-session";
 export type PlayerDocument = {
   nombre?: string | null;
 } & Partial<Record<GameField, number | null>>;
@@ -36,6 +37,11 @@ export interface PlayerAssignment {
   courtLabel: string;
   partnerId: PlayerId;
   opponentIds: [PlayerId, PlayerId];
+}
+
+export interface PlayerSession {
+  playerId: PlayerId;
+  playerName: string;
 }
 
 export type CourtSubmissionStatus = "empty" | "partial" | "complete";

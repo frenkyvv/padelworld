@@ -6,6 +6,7 @@ import { collection, doc, getDocs, runTransaction } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
   PLAYER_IDS,
+  PLAYER_SESSION_STORAGE_KEY,
   getDefaultPlayerName,
   getDisplayPlayerName,
   getPlayerAssignments,
@@ -13,14 +14,8 @@ import {
   normalizePlayerName,
   type PlayerDocument,
   type PlayerId,
+  type PlayerSession,
 } from "@/lib/padel";
-
-const SESSION_STORAGE_KEY = "padel-player-session";
-
-interface PlayerSession {
-  playerId: PlayerId;
-  playerName: string;
-}
 
 interface RankedPlayer {
   id: PlayerId;
@@ -83,13 +78,13 @@ export default function PlayerAccess() {
   };
 
   useEffect(() => {
-    const savedSession = localStorage.getItem(SESSION_STORAGE_KEY);
+    const savedSession = localStorage.getItem(PLAYER_SESSION_STORAGE_KEY);
     if (savedSession) {
       try {
         setSession(JSON.parse(savedSession) as PlayerSession);
       } catch (parseError) {
         console.error("No se pudo leer la sesion guardada: ", parseError);
-        localStorage.removeItem(SESSION_STORAGE_KEY);
+        localStorage.removeItem(PLAYER_SESSION_STORAGE_KEY);
       }
     }
 
@@ -155,7 +150,10 @@ export default function PlayerAccess() {
         } satisfies PlayerSession;
       });
 
-      localStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(playerSession));
+      localStorage.setItem(
+        PLAYER_SESSION_STORAGE_KEY,
+        JSON.stringify(playerSession),
+      );
       setSession(playerSession);
       setName("");
       await fetchPlayers();
@@ -172,7 +170,7 @@ export default function PlayerAccess() {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem(SESSION_STORAGE_KEY);
+    localStorage.removeItem(PLAYER_SESSION_STORAGE_KEY);
     setSession(null);
     setName("");
     setError("");

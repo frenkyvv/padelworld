@@ -95,7 +95,7 @@ export default function TablaTodosJugadores() {
             <tr key={player.id}>
               <td className="text-center">{index + 1}</td>
               <td className="text-center">
-                <Link href={`/${player.id}`}>{player.displayName}</Link>
+                <Link href="/">{player.displayName}</Link>
               </td>
               {GAME_NUMBERS.map((gameNumber) => (
                 <td className="text-center" key={`${player.id}-${gameNumber}`}>

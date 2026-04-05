@@ -20,6 +20,7 @@ interface CourtResultCardProps {
   gameNumber: GameNumber;
   players: Partial<Record<PlayerId, string>>;
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
+  canEdit?: boolean;
   onSaved?: () => Promise<void> | void;
 }
 
@@ -46,6 +47,7 @@ export default function CourtResultCard({
   gameNumber,
   players,
   playerDocuments,
+  canEdit = false,
   onSaved,
 }: CourtResultCardProps) {
   const playerIds = useMemo(
@@ -81,6 +83,11 @@ export default function CourtResultCard({
   };
 
   const handleSubmit = async () => {
+    if (!canEdit) {
+      setError("Solo los jugadores de esta cancha pueden cargar este resultado.");
+      return;
+    }
+
     const missingScores = playerIds.filter(
       (playerId) =>
         scores[playerId] === undefined || scores[playerId].trim() === "",
@@ -171,25 +178,31 @@ export default function CourtResultCard({
                 </td>
                 <td className="text-center">
                   <input
-                    type="number"
+                    type="text"
                     value={scores[leftPlayer] ?? ""}
                     onChange={(event) =>
                       handleChange(leftPlayer, event.target.value)
                     }
-                    style={{ width: "70px" }}
-                    disabled={isSubmitted}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={1}
+                    className="score-input"
+                    disabled={isSubmitted || !canEdit}
                   />
                 </td>
                 <td className="text-center">VS</td>
                 <td className="text-center">
                   <input
-                    type="number"
+                    type="text"
                     value={scores[rightPlayer] ?? ""}
                     onChange={(event) =>
                       handleChange(rightPlayer, event.target.value)
                     }
-                    style={{ width: "70px" }}
-                    disabled={isSubmitted}
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    maxLength={1}
+                    className="score-input"
+                    disabled={isSubmitted || !canEdit}
                   />
                 </td>
                 <td className="text-center">
@@ -212,12 +225,18 @@ export default function CourtResultCard({
           guardar los 4 puntajes para completarlo.
         </div>
       )}
+      {!canEdit && !error && (
+        <div className="alert alert-secondary text-center" role="alert">
+          Solo los jugadores asignados a esta cancha pueden modificar este juego
+          desde su sesión.
+        </div>
+      )}
 
       <div className="botones">
         <button
           className="btn btn-primary"
           onClick={handleSubmit}
-          disabled={isSubmitted || isSaving}
+          disabled={isSubmitted || isSaving || !canEdit}
         >
           {isSubmitted
             ? "Resultado cerrado"
