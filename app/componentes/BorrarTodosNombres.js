@@ -3,7 +3,7 @@
 import '../styles.css';
 import React, { useState } from 'react';
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { PLAYER_IDS } from '@/lib/padel';
 
 const BorrarTodosNombres = () => {
@@ -14,7 +14,7 @@ const BorrarTodosNombres = () => {
     try {
       for (const jugador of PLAYER_IDS) {
         const jugadorRef = doc(db, "padel", jugador);
-        await updateDoc(jugadorRef, { nombre: null });
+        await setDoc(jugadorRef, { nombre: null }, { merge: true });
       }
       alert('Nombres borrados para todos los jugadores.');
     } catch (error) {

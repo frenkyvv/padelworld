@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
   getGameField,
@@ -48,9 +48,13 @@ export default function InputJuego({
     }
 
     try {
-      await updateDoc(doc(db, "padel", jugador), {
-        [getGameField(gameNumber)]: Number(value),
-      });
+      await setDoc(
+        doc(db, "padel", jugador),
+        {
+          [getGameField(gameNumber)]: Number(value),
+        },
+        { merge: true },
+      );
 
       localStorage.setItem(`${jugador}-juego${gameNumber}`, value);
       alert(`Puntos registrados: ${value}`);

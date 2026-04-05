@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
-  GAME_FIELDS,
+  GAME_NUMBERS,
+  getGameField,
+  getScoreForGame,
   getTotalPoints,
   type PlayerDocument,
   type PlayerId,
@@ -47,19 +49,21 @@ export default function TablaResultados({ playerId }: TablaResultadosProps) {
       <table className="table table-bordered text-center">
         <thead>
           <tr>
-            {GAME_FIELDS.map((gameField) => (
-              <th key={gameField}>{gameField.slice(1)}</th>
+            {GAME_NUMBERS.map((gameNumber) => (
+              <th key={gameNumber}>{gameNumber}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           <tr>
-            {GAME_FIELDS.map((gameField) => (
-              <td key={gameField}>{player[gameField] ?? 0}</td>
+            {GAME_NUMBERS.map((gameNumber) => (
+              <td key={getGameField(gameNumber)}>
+                {getScoreForGame(player, gameNumber)}
+              </td>
             ))}
           </tr>
           <tr>
-            <td colSpan={GAME_FIELDS.length} style={{ fontWeight: "bold" }}>
+            <td colSpan={GAME_NUMBERS.length} style={{ fontWeight: "bold" }}>
               Total de Puntos: {getTotalPoints(player)}
             </td>
           </tr>

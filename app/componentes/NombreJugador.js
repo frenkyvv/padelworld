@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from "firebase/firestore";
-import { PLAYER_IDS } from '@/lib/padel';
+import { doc, setDoc } from "firebase/firestore";
+import { PLAYER_IDS, getDefaultPlayerName } from '@/lib/padel';
 
 const NombreJugador = ({ jugador = null, onComplete = undefined } = {}) => {
   const [nombre, setNombre] = useState('');
@@ -22,7 +22,7 @@ const NombreJugador = ({ jugador = null, onComplete = undefined } = {}) => {
 
     try {
       const jugadorRef = doc(db, "padel", jugadorSeleccionado);
-      await updateDoc(jugadorRef, { nombre });
+      await setDoc(jugadorRef, { nombre }, { merge: true });
       alert(`Nombre de ${jugadorSeleccionado} guardado: ${nombre}`);
       onComplete?.();
       window.location.reload();
@@ -50,14 +50,11 @@ const NombreJugador = ({ jugador = null, onComplete = undefined } = {}) => {
                   value={jugadorSeleccionado}
                   onChange={(e) => setJugadorSeleccionado(e.target.value)}
                 >
-                  <option value="jugador1">Jugador 1</option>
-                  <option value="jugador2">Jugador 2</option>
-                  <option value="jugador3">Jugador 3</option>
-                  <option value="jugador4">Jugador 4</option>
-                  <option value="jugador5">Jugador 5</option>
-                  <option value="jugador6">Jugador 6</option>
-                  <option value="jugador7">Jugador 7</option>
-                  <option value="jugador8">Jugador 8</option>
+                  {PLAYER_IDS.map((playerId) => (
+                    <option key={playerId} value={playerId}>
+                      {getDefaultPlayerName(playerId)}
+                    </option>
+                  ))}
                 </select>
                 <input 
                   type="text" 

@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from "firebase/firestore";
+import { deleteField, doc, setDoc } from "firebase/firestore";
 import { GAME_FIELDS, PLAYER_IDS } from '@/lib/padel';
 
 const ResetDatos = () => {
@@ -18,12 +18,12 @@ const ResetDatos = () => {
       // Resetear valores en Firestore
       try {
         const jugadorRef = doc(db, "padel", jugador);
-        await updateDoc(jugadorRef, {
+        await setDoc(jugadorRef, {
           ...GAME_FIELDS.reduce(
-            (accumulator, field) => ({ ...accumulator, [field]: 0 }),
+            (accumulator, field) => ({ ...accumulator, [field]: deleteField() }),
             {},
           ),
-        });
+        }, { merge: true });
       } catch (error) {
         console.error("Error al resetear los datos: ", error);
       }

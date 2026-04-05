@@ -1,26 +1,34 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
-import RoundCourtCards from "@/app/componentes/RoundCourtCards";
+import CourtResultCard from "@/app/componentes/CourtResultCard";
 import { db } from "@/lib/firebase";
 import {
   GAME_NUMBERS,
   PLAYER_IDS,
+  getCourtForGame,
   getGameLabel,
   type GameNumber,
   type PlayerDocument,
   type PlayerId,
 } from "@/lib/padel";
 
-export default function JuegoSelector() {
-  const [selectedGame, setSelectedGame] = useState<GameNumber>(
-    GAME_NUMBERS[0] ?? 1,
-  );
+interface CourtPageViewProps {
+  gameNumber: GameNumber;
+  courtNumber: number;
+}
+
+export default function CourtPageView({
+  gameNumber,
+  courtNumber,
+}: CourtPageViewProps) {
   const [players, setPlayers] = useState<Partial<Record<PlayerId, string>>>({});
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
+  const [refreshToken, setRefreshToken] = useState(0);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -56,41 +64,39 @@ export default function JuegoSelector() {
     };
 
     void fetchPlayers();
-  }, []);
+  }, [refreshToken]);
+
+  const court = getCourtForGame(gameNumber, courtNumber);
+
+  if (!court || !GAME_NUMBERS.includes(gameNumber)) {
+    return (
+      <div className="subtitulo">
+        No se encontró la tarjeta solicitada.
+      </div>
+    );
+  }
 
   return (
-    <div className="container mt-4">
-      <div className="row">
-        <div className="col-12">
-          <div className="titulo">
-            <label htmlFor="juegoSelect" className="form-label">
-              Selecciona un juego
-            </label>
-          </div>
-          <select
-            className="form-select"
-            id="juegoSelect"
-            value={selectedGame}
-            onChange={(event) =>
-              setSelectedGame(Number(event.target.value) as GameNumber)
-            }
-          >
-            {GAME_NUMBERS.map((gameNumber) => (
-              <option key={gameNumber} value={gameNumber}>
-                {getGameLabel(gameNumber)}
-              </option>
-            ))}
-          </select>
-        </div>
+    <div className="topcontainer">
+      <div className="titulo">
+        {getGameLabel(gameNumber)} - {court.courtLabel}
       </div>
-      <div className="row mt-4">
-        <div className="col-12">
-          <RoundCourtCards
-            gameNumber={selectedGame}
-            players={players}
-            playerDocuments={playerDocuments}
-          />
-        </div>
+      <div className="subtitulo">
+        Esta tarjeta muestra solo el partido de esta cancha.
+      </div>
+      <div className="container">
+        <CourtResultCard
+          court={court}
+          gameNumber={gameNumber}
+          players={players}
+          playerDocuments={playerDocuments}
+          onSaved={() => setRefreshToken((currentValue) => currentValue + 1)}
+        />
+      </div>
+      <div className="botones">
+        <Link href="/rol" className="btn btn-outline-primary">
+          Volver al rol
+        </Link>
       </div>
     </div>
   );

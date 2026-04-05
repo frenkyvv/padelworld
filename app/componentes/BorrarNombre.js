@@ -3,8 +3,8 @@
 import '../styles.css';
 import React, { useState } from 'react';
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from "firebase/firestore";
-import { PLAYER_IDS } from '@/lib/padel';
+import { doc, setDoc } from "firebase/firestore";
+import { PLAYER_IDS, getDefaultPlayerName } from '@/lib/padel';
 
 const BorrarNombre = () => {
   const [selectedJugador, setSelectedJugador] = useState(PLAYER_IDS[0]);
@@ -14,7 +14,7 @@ const BorrarNombre = () => {
     setLoading(true);
     try {
       const jugadorRef = doc(db, "padel", selectedJugador);
-      await updateDoc(jugadorRef, { nombre: null });
+      await setDoc(jugadorRef, { nombre: null }, { merge: true });
       alert(`Nombre borrado para ${selectedJugador.toUpperCase()}`);
     } catch (error) {
       console.error("Error al borrar el nombre: ", error);
@@ -38,7 +38,7 @@ const BorrarNombre = () => {
         >
           {PLAYER_IDS.map((jugador) => (
             <option key={jugador} value={jugador}>
-              {jugador.charAt(0).toUpperCase() + jugador.slice(1)}
+              {getDefaultPlayerName(jugador)}
             </option>
           ))}
         </select>

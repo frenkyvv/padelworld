@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from "firebase/firestore";
-import { GAME_FIELDS, PLAYER_IDS } from '@/lib/padel';
+import { doc, setDoc } from "firebase/firestore";
+import { GAME_FIELDS, PLAYER_IDS, getDefaultPlayerName } from '@/lib/padel';
 
 const ModificarPuntuacion = () => {
   const [selectedJugador, setSelectedJugador] = useState(PLAYER_IDS[0]);
@@ -18,9 +18,9 @@ const ModificarPuntuacion = () => {
 
     try {
       const jugadorRef = doc(db, "padel", selectedJugador);
-      await updateDoc(jugadorRef, {
+      await setDoc(jugadorRef, {
         [selectedJuego]: Number(cantidad)
-      });
+      }, { merge: true });
       alert(`Puntos actualizados para ${selectedJugador.toUpperCase()} en ${selectedJuego.toUpperCase()}: ${cantidad}`);
       setCantidad('');
     } catch (error) {
@@ -43,7 +43,7 @@ const ModificarPuntuacion = () => {
         >
           {PLAYER_IDS.map((jugador) => (
             <option key={jugador} value={jugador}>
-              {jugador.charAt(0).toUpperCase() + jugador.slice(1)}
+              {getDefaultPlayerName(jugador)}
             </option>
           ))}
         </select>

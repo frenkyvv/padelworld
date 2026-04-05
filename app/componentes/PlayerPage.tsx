@@ -53,7 +53,7 @@ export default function PlayerPage({ playerId }: PlayerPageProps) {
       </div>
       <TablaTodosJugadores />
       <div className="link">
-        <Link href="/">Rol de Juegos</Link>
+        <Link href="/resultados">Volver a resultados</Link>
       </div>
     </div>
   );

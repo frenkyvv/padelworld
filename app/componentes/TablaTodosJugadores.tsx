@@ -5,8 +5,10 @@ import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
+  GAME_NUMBERS,
   PLAYER_IDS,
   getDisplayPlayerName,
+  getScoreForGame,
   getTotalPoints,
   type PlayerDocument,
   type PlayerId,
@@ -47,6 +49,12 @@ export default function TablaTodosJugadores() {
               totalPuntos: getTotalPoints(playerData),
               ...playerData,
             };
+          }).sort((leftPlayer, rightPlayer) => {
+            if (rightPlayer.totalPuntos !== leftPlayer.totalPuntos) {
+              return rightPlayer.totalPuntos - leftPlayer.totalPuntos;
+            }
+
+            return leftPlayer.displayName.localeCompare(rightPlayer.displayName);
           }),
         );
       } catch (error) {
@@ -67,51 +75,33 @@ export default function TablaTodosJugadores() {
         <thead>
           <tr>
             <th scope="col" className="text-center">
+              #
+            </th>
+            <th scope="col" className="text-center">
               Jugador
             </th>
-            <th scope="col" className="text-center">
-              1
-            </th>
-            <th scope="col" className="text-center">
-              2
-            </th>
-            <th scope="col" className="text-center">
-              3
-            </th>
-            <th scope="col" className="text-center">
-              4
-            </th>
-            <th scope="col" className="text-center">
-              5
-            </th>
-            <th scope="col" className="text-center">
-              6
-            </th>
-            <th scope="col" className="text-center">
-              7
-            </th>
-            <th scope="col" className="text-center">
-              8
-            </th>
+            {GAME_NUMBERS.map((gameNumber) => (
+              <th key={gameNumber} scope="col" className="text-center">
+                {gameNumber}
+              </th>
+            ))}
             <th scope="col" className="text-center">
               Total
             </th>
           </tr>
         </thead>
         <tbody>
-          {players.map((player) => (
+          {players.map((player, index) => (
             <tr key={player.id}>
+              <td className="text-center">{index + 1}</td>
               <td className="text-center">
                 <Link href={`/${player.id}`}>{player.displayName}</Link>
               </td>
-              <td className="text-center">{player.j1 ?? 0}</td>
-              <td className="text-center">{player.j2 ?? 0}</td>
-              <td className="text-center">{player.j3 ?? 0}</td>
-              <td className="text-center">{player.j4 ?? 0}</td>
-              <td className="text-center">{player.j5 ?? 0}</td>
-              <td className="text-center">{player.j6 ?? 0}</td>
-              <td className="text-center">{player.j7 ?? 0}</td>
-              <td className="text-center">{player.j8 ?? 0}</td>
+              {GAME_NUMBERS.map((gameNumber) => (
+                <td className="text-center" key={`${player.id}-${gameNumber}`}>
+                  {getScoreForGame(player, gameNumber)}
+                </td>
+              ))}
               <td className="text-center">{player.totalPuntos}</td>
             </tr>
           ))}
