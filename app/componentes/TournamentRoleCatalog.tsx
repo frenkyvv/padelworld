@@ -1,35 +1,22 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { collection, getDocs } from "firebase/firestore";
-import AppTabs from "@/app/componentes/AppTabs";
-import CourtResultCard from "@/app/componentes/CourtResultCard";
 import { db } from "@/lib/firebase";
+import RoundCourtCards from "@/app/componentes/RoundCourtCards";
 import {
   GAME_NUMBERS,
   PLAYER_IDS,
-  getCourtForGame,
   getGameLabel,
-  type GameNumber,
   type PlayerDocument,
   type PlayerId,
 } from "@/lib/padel";
 
-interface CourtPageViewProps {
-  gameNumber: GameNumber;
-  courtNumber: number;
-}
-
-export default function CourtPageView({
-  gameNumber,
-  courtNumber,
-}: CourtPageViewProps) {
+export default function TournamentRoleCatalog() {
   const [players, setPlayers] = useState<Partial<Record<PlayerId, string>>>({});
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
-  const [refreshToken, setRefreshToken] = useState(0);
 
   useEffect(() => {
     const fetchPlayers = async () => {
@@ -65,41 +52,20 @@ export default function CourtPageView({
     };
 
     void fetchPlayers();
-  }, [refreshToken]);
-
-  const court = getCourtForGame(gameNumber, courtNumber);
-
-  if (!court || !GAME_NUMBERS.includes(gameNumber)) {
-    return (
-      <div className="subtitulo">
-        No se encontró la tarjeta solicitada.
-      </div>
-    );
-  }
+  }, []);
 
   return (
-    <div className="topcontainer">
-      <div className="titulo">
-        {getGameLabel(gameNumber)} - {court.courtLabel}
-      </div>
-      <AppTabs />
-      <div className="subtitulo">
-        Esta tarjeta muestra solo el partido de esta cancha.
-      </div>
-      <div className="container">
-        <CourtResultCard
-          court={court}
-          gameNumber={gameNumber}
-          players={players}
-          playerDocuments={playerDocuments}
-          onSaved={() => setRefreshToken((currentValue) => currentValue + 1)}
-        />
-      </div>
-      <div className="botones">
-        <Link href="/rol" className="btn btn-outline-primary">
-          Volver al rol
-        </Link>
-      </div>
+    <div className="catalog-grid">
+      {GAME_NUMBERS.map((gameNumber) => (
+        <section key={gameNumber} className="catalog-section">
+          <div className="catalog-section-header">{getGameLabel(gameNumber)}</div>
+          <RoundCourtCards
+            gameNumber={gameNumber}
+            players={players}
+            playerDocuments={playerDocuments}
+          />
+        </section>
+      ))}
     </div>
   );
 }

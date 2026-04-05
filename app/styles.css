@@ -43,6 +43,8 @@
   padding-top: -20px;
   align-items: center;
   justify-content: center;
+  width: min(1200px, 100%);
+  padding-inline: 16px;
 }
 .borrar{
   align-items: center;
@@ -58,8 +60,60 @@
   align-items: center;
   justify-content: center;
 }
+.compact-buttons {
+  width: auto;
+  gap: 12px;
+}
 .padd{
   padding-top: 20px;
+}
+.app-tabs-wrap {
+  width: min(960px, 100%);
+  padding-inline: 16px;
+  margin-bottom: 16px;
+}
+.app-tabs {
+  justify-content: center;
+  gap: 8px;
+  border-bottom: none;
+}
+.app-tabs .nav-link {
+  border-radius: 999px;
+  border: 1px solid rgba(13, 110, 253, 0.2);
+  color: #0d6efd;
+  background: rgba(255, 255, 255, 0.75);
+}
+.app-tabs .nav-link.active {
+  color: #fff;
+  background: #0d6efd;
+  border-color: #0d6efd;
+}
+.catalog-grid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.catalog-section {
+  width: 100%;
+}
+.catalog-section-header {
+  text-align: center;
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+.role-card {
+  border-radius: 12px;
+}
+.role-card .card-title,
+.role-card .card-text {
+  text-align: center;
+}
+.role-card .card-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 .svg-background {
   position: fixed;

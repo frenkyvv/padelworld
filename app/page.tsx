@@ -1,4 +1,5 @@
 import Link from "next/link";
+import AppTabs from "@/app/componentes/AppTabs";
 import PlayerAccess from "@/app/componentes/PlayerAccess";
 import SvgBackground from "@/app/componentes/SvgBackground";
 import { TOURNAMENT_CONFIG } from "@/lib/padel";
@@ -9,13 +10,14 @@ export default function Home() {
     <div className="topcontainer">
       <SvgBackground />
       <div className="titulo">Padel Score Americanas</div>
+      <AppTabs />
       <div className="subtitulo">
         {TOURNAMENT_CONFIG.totalPlayers} jugadores,{" "}
         {TOURNAMENT_CONFIG.totalCourts} canchas,{" "}
         {TOURNAMENT_CONFIG.roundCount} rondas configuradas
       </div>
       <PlayerAccess />
-      <div className="botones">
+      <div className="botones compact-buttons">
         <Link href="/rol" className="btn btn-outline-primary">
           Ver rol completo
         </Link>

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { doc, runTransaction } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
+  getCourtSubmissionStatus,
   getDefaultPlayerName,
   getGameField,
   getScoreForGame,
@@ -60,9 +61,12 @@ export default function CourtResultCard({
     setError("");
   }, [gameNumber, playerDocuments, playerIds]);
 
-  const isSubmitted = playerIds.every((playerId) =>
-    hasSubmittedScore(playerDocuments[playerId], gameNumber),
+  const submissionStatus = getCourtSubmissionStatus(
+    playerDocuments,
+    gameNumber,
+    playerIds,
   );
+  const isSubmitted = submissionStatus === "complete";
 
   const handleChange = (playerId: PlayerId, value: string) => {
     if (!/^\d*$/.test(value)) {
@@ -99,15 +103,20 @@ export default function CourtResultCard({
         const playerSnapshots = await Promise.all(
           playerRefs.map((playerRef) => transaction.get(playerRef)),
         );
-
-        const alreadySubmitted = playerSnapshots.some((snapshot) =>
-          hasSubmittedScore(
+        const transactionPlayerDocuments = Object.fromEntries(
+          playerSnapshots.map((snapshot, index) => [
+            playerIds[index],
             snapshot.data() as PlayerDocument | undefined,
-            gameNumber,
-          ),
+          ]),
+        ) as Partial<Record<PlayerId, PlayerDocument>>;
+
+        const currentStatus = getCourtSubmissionStatus(
+          transactionPlayerDocuments,
+          gameNumber,
+          playerIds,
         );
 
-        if (alreadySubmitted) {
+        if (currentStatus === "complete") {
           throw new Error("Este resultado ya fue cargado por otro jugador.");
         }
 
@@ -142,7 +151,11 @@ export default function CourtResultCard({
           <tr>
             <th colSpan={5} className="text-center">
               {court.courtLabel}
-              {isSubmitted ? " - Resultado cargado" : " - Pendiente"}
+              {submissionStatus === "complete"
+                ? " - Resultado cargado"
+                : submissionStatus === "partial"
+                  ? " - Resultado parcial"
+                  : " - Pendiente"}
             </th>
           </tr>
         </thead>
@@ -191,6 +204,12 @@ export default function CourtResultCard({
       {error && (
         <div className="alert alert-danger text-center" role="alert">
           {error}
+        </div>
+      )}
+      {submissionStatus === "partial" && !error && (
+        <div className="alert alert-warning text-center" role="alert">
+          Esta cancha tiene un resultado parcial guardado. Puedes volver a
+          guardar los 4 puntajes para completarlo.
         </div>
       )}
 

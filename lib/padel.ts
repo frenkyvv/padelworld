@@ -38,6 +38,8 @@ export interface PlayerAssignment {
   opponentIds: [PlayerId, PlayerId];
 }
 
+export type CourtSubmissionStatus = "empty" | "partial" | "complete";
+
 interface RawCourtDefinition {
   teamA: [number, number];
   teamB: [number, number];
@@ -288,6 +290,26 @@ export function hasSubmittedScore(
   gameNumber: GameNumber,
 ): boolean {
   return typeof player?.[getGameField(gameNumber)] === "number";
+}
+
+export function getCourtSubmissionStatus(
+  playerDocuments: Partial<Record<PlayerId, PlayerDocument>>,
+  gameNumber: GameNumber,
+  playerIds: PlayerId[],
+): CourtSubmissionStatus {
+  const submittedCount = playerIds.filter((playerId) =>
+    hasSubmittedScore(playerDocuments[playerId], gameNumber),
+  ).length;
+
+  if (submittedCount === 0) {
+    return "empty";
+  }
+
+  if (submittedCount === playerIds.length) {
+    return "complete";
+  }
+
+  return "partial";
 }
 
 export function getCourtForGame(

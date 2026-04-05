@@ -3,8 +3,8 @@
 import Link from "next/link";
 import {
   GAME_SCHEDULES,
+  getCourtSubmissionStatus,
   getDefaultPlayerName,
-  hasSubmittedScore,
   type GameNumber,
   type PlayerDocument,
   type PlayerId,
@@ -27,31 +27,42 @@ export default function RoundCourtCards({
     <div className="row g-3">
       {courts.map((court, index) => {
         const playerIds = [...court.teamA, ...court.teamB] as PlayerId[];
-        const isSubmitted = playerIds.every((playerId) =>
-          hasSubmittedScore(playerDocuments[playerId], gameNumber),
+        const submissionStatus = getCourtSubmissionStatus(
+          playerDocuments,
+          gameNumber,
+          playerIds,
         );
+        const isSubmitted = submissionStatus === "complete";
 
         return (
           <div className="col-12 col-md-6 col-xl-4" key={court.courtLabel}>
-            <div className="card h-100 shadow-sm">
+            <div className="card h-100 shadow-sm role-card">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">
                   <h5 className="card-title mb-0">{court.courtLabel}</h5>
                   <span
                     className={`badge ${
-                      isSubmitted ? "text-bg-success" : "text-bg-warning"
+                      submissionStatus === "complete"
+                        ? "text-bg-success"
+                        : submissionStatus === "partial"
+                          ? "text-bg-danger"
+                          : "text-bg-warning"
                     }`}
                   >
-                    {isSubmitted ? "Cargado" : "Pendiente"}
+                    {submissionStatus === "complete"
+                      ? "Cargado"
+                      : submissionStatus === "partial"
+                        ? "Parcial"
+                        : "Pendiente"}
                   </span>
                 </div>
-                <p className="card-text mb-1">
+                <p className="card-text text-center mb-1">
                   {players[court.teamA[0]] || getDefaultPlayerName(court.teamA[0])}
                   {" / "}
                   {players[court.teamA[1]] || getDefaultPlayerName(court.teamA[1])}
                 </p>
                 <p className="card-text text-center fw-bold">VS</p>
-                <p className="card-text">
+                <p className="card-text text-center">
                   {players[court.teamB[0]] || getDefaultPlayerName(court.teamB[0])}
                   {" / "}
                   {players[court.teamB[1]] || getDefaultPlayerName(court.teamB[1])}
