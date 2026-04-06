@@ -16,16 +16,16 @@ export default function FixedAmericanasAbrilPage() {
       <div className="titulo">{FIXED_AMERICANAS_ABRIL_TITLE}</div>
       <AppTabs />
       <div className="subtitulo fixed-event-copy">
-        Este rol ya viene precargado con los jugadores del Excel. Aquí solo se
-        muestra el juego actualmente publicado. Cuando todas sus canchas se
-        completan, se libera automáticamente el siguiente.
+        Este rol ya viene precargado con los jugadores del Excel. Aquí se ven
+        todos los juegos pendientes que todavía no se han cerrado. La pestaña
+        de Inicio es la que publica solo el juego actualmente en curso.
       </div>
       <div className="subtitulo">
         {Object.keys(FIXED_AMERICANAS_ABRIL_PLAYERS).length} jugadores, 5
         canchas, {FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.length} juegos
       </div>
       <div className="tablaTotal">
-        <FixedAmericanasAbrilPendingCatalog scope="current" />
+        <FixedAmericanasAbrilPendingCatalog />
       </div>
       <div className="botones compact-buttons">
         <Link
