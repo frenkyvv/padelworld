@@ -16,9 +16,16 @@ import {
   FIXED_AMERICANAS_ABRIL_PLAYERS,
   FIXED_AMERICANAS_ABRIL_SCHEDULES,
   getFixedAmericanasAbrilPlayerDocumentsMap,
+  getFixedAmericanasCurrentGameNumber,
 } from "@/lib/fixedAmericanasAbril";
 
-export default function FixedAmericanasAbrilPendingCatalog() {
+interface FixedAmericanasAbrilPendingCatalogProps {
+  scope?: "all" | "current";
+}
+
+export default function FixedAmericanasAbrilPendingCatalog({
+  scope = "all",
+}: FixedAmericanasAbrilPendingCatalogProps) {
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
@@ -68,7 +75,13 @@ export default function FixedAmericanasAbrilPendingCatalog() {
     return { gameNumber, courts };
   }).filter((section) => section.courts.length > 0);
 
-  if (pendingSections.length === 0) {
+  const currentGameNumber = getFixedAmericanasCurrentGameNumber(playerDocuments);
+  const visibleSections =
+    scope === "current" && currentGameNumber !== null
+      ? pendingSections.filter((section) => section.gameNumber === currentGameNumber)
+      : pendingSections;
+
+  if (visibleSections.length === 0) {
     return (
       <div className="empty-catalog-state">
         Todos los juegos ya tienen marcador. Ahora los puedes consultar en la
@@ -79,7 +92,7 @@ export default function FixedAmericanasAbrilPendingCatalog() {
 
   return (
     <div className="catalog-grid">
-      {pendingSections.map(({ gameNumber, courts }) => (
+      {visibleSections.map(({ gameNumber, courts }) => (
         <section key={gameNumber} className="catalog-section">
           <div className="catalog-section-header">Juego {gameNumber}</div>
           <RoundCourtCards

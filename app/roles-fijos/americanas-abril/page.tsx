@@ -17,15 +17,15 @@ export default function FixedAmericanasAbrilPage() {
       <AppTabs />
       <div className="subtitulo fixed-event-copy">
         Este rol ya viene precargado con los jugadores del Excel. Aquí solo se
-        muestran los juegos pendientes. Cuando una cancha se completa, se mueve
-        a la página de juegos terminados.
+        muestra el juego actualmente publicado. Cuando todas sus canchas se
+        completan, se libera automáticamente el siguiente.
       </div>
       <div className="subtitulo">
         {Object.keys(FIXED_AMERICANAS_ABRIL_PLAYERS).length} jugadores, 5
         canchas, {FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.length} juegos
       </div>
       <div className="tablaTotal">
-        <FixedAmericanasAbrilPendingCatalog />
+        <FixedAmericanasAbrilPendingCatalog scope="current" />
       </div>
       <div className="botones compact-buttons">
         <Link

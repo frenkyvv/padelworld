@@ -155,12 +155,32 @@
   width: min(560px, calc(100% - 32px));
   text-align: center;
 }
+.admin-mode-copy {
+  width: min(560px, calc(100% - 32px));
+  text-align: center;
+  color: #0d6efd;
+  font-weight: 600;
+}
 .config-panels {
   width: min(820px, 100%);
   padding-inline: 16px;
   display: flex;
   flex-direction: column;
   gap: 20px;
+}
+.config-login-wrap {
+  width: min(460px, 100%);
+  padding-inline: 16px;
+}
+.config-login-form {
+  display: grid;
+  gap: 16px;
+}
+.config-login-form .form-control {
+  max-width: 220px;
+  margin: 0 auto;
+  font-size: 1.2rem;
+  letter-spacing: 0.25rem;
 }
 .config-card {
   width: 100%;

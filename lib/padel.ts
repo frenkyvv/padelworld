@@ -21,6 +21,8 @@ export type PlayerId = string;
 export type GameNumber = number;
 export type GameField = `j${number}`;
 export const PLAYER_SESSION_STORAGE_KEY = "padel-player-session";
+export const CONFIG_SESSION_STORAGE_KEY = "padel-config-session";
+export const CONFIG_ACCESS_PIN = "0160";
 export type PlayerDocument = {
   nombre?: string | null;
 } & Partial<Record<GameField, number | null>>;

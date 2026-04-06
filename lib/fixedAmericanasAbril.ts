@@ -1,4 +1,5 @@
 import {
+  getCourtSubmissionStatus,
   getScoreForGame,
   type CourtDefinition,
   type GameNumber,
@@ -137,4 +138,30 @@ export function getFixedAmericanasAbrilTeamScoreLabel(
   return uniqueScores.length === 1
     ? String(uniqueScores[0])
     : uniqueScores.join(" / ");
+}
+
+export function isFixedAmericanasRoundComplete(
+  playerDocuments: Partial<Record<PlayerId, PlayerDocument>>,
+  gameNumber: GameNumber,
+): boolean {
+  const courts = FIXED_AMERICANAS_ABRIL_SCHEDULES[gameNumber] ?? [];
+
+  return courts.every((court) => {
+    const playerIds = [...court.teamA, ...court.teamB] as PlayerId[];
+
+    return (
+      getCourtSubmissionStatus(playerDocuments, gameNumber, playerIds) ===
+      "complete"
+    );
+  });
+}
+
+export function getFixedAmericanasCurrentGameNumber(
+  playerDocuments: Partial<Record<PlayerId, PlayerDocument>>,
+): GameNumber | null {
+  return (
+    FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.find(
+      (gameNumber) => !isFixedAmericanasRoundComplete(playerDocuments, gameNumber),
+    ) ?? null
+  );
 }

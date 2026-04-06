@@ -10,6 +10,10 @@ const TAB_ITEMS = [
     label: "Tabla general",
   },
   { href: "/roles-fijos/americanas-abril", label: "Rol fijo" },
+  {
+    href: "/roles-fijos/americanas-abril/terminados",
+    label: "Terminados",
+  },
 ];
 
 export default function AppTabs() {

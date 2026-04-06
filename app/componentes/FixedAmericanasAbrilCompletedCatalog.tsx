@@ -25,6 +25,8 @@ interface CompletedCourtCardProps {
   courtNumber: number;
   gameNumber: number;
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
+  buildCourtHref: (gameNumber: number, courtNumber: number) => string;
+  ctaLabel: string;
 }
 
 function CompletedCourtCard({
@@ -32,6 +34,8 @@ function CompletedCourtCard({
   courtNumber,
   gameNumber,
   playerDocuments,
+  buildCourtHref,
+  ctaLabel,
 }: CompletedCourtCardProps) {
   const teamAScore = getFixedAmericanasAbrilTeamScoreLabel(
     playerDocuments,
@@ -72,10 +76,10 @@ function CompletedCourtCard({
         </div>
         <div className="card-footer bg-transparent border-0 pt-0">
           <Link
-            href={`/roles-fijos/${FIXED_AMERICANAS_ABRIL_EVENT_ID}/juego/${gameNumber}/cancha/${courtNumber}`}
+            href={buildCourtHref(gameNumber, courtNumber)}
             className="btn btn-outline-secondary w-100"
           >
-            Ver tarjeta
+            {ctaLabel}
           </Link>
         </div>
       </div>
@@ -83,7 +87,18 @@ function CompletedCourtCard({
   );
 }
 
-export default function FixedAmericanasAbrilCompletedCatalog() {
+interface FixedAmericanasAbrilCompletedCatalogProps {
+  buildCourtHref?: (gameNumber: number, courtNumber: number) => string;
+  ctaLabel?: string;
+  emptyMessage?: string;
+}
+
+export default function FixedAmericanasAbrilCompletedCatalog({
+  buildCourtHref = (gameNumber, courtNumber) =>
+    `/roles-fijos/${FIXED_AMERICANAS_ABRIL_EVENT_ID}/juego/${gameNumber}/cancha/${courtNumber}`,
+  ctaLabel = "Ver tarjeta",
+  emptyMessage = "Todavía no hay juegos terminados. Cuando se cierre una cancha, aparecerá aquí con su marcador.",
+}: FixedAmericanasAbrilCompletedCatalogProps) {
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
@@ -134,12 +149,7 @@ export default function FixedAmericanasAbrilCompletedCatalog() {
   }).filter((section) => section.courts.length > 0);
 
   if (completedSections.length === 0) {
-    return (
-      <div className="empty-catalog-state">
-        Todavía no hay juegos terminados. Cuando se cierre una cancha, aparecerá
-        aquí con su marcador.
-      </div>
-    );
+    return <div className="empty-catalog-state">{emptyMessage}</div>;
   }
 
   return (
@@ -155,6 +165,8 @@ export default function FixedAmericanasAbrilCompletedCatalog() {
                 courtNumber={courtNumber}
                 gameNumber={gameNumber}
                 playerDocuments={playerDocuments}
+                buildCourtHref={buildCourtHref}
+                ctaLabel={ctaLabel}
               />
             ))}
           </div>

@@ -21,6 +21,7 @@ interface CourtResultCardProps {
   players: Partial<Record<PlayerId, string>>;
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
   canEdit?: boolean;
+  allowResubmission?: boolean;
   playerCollectionPath?: [string, ...string[]];
   onSaved?: () => Promise<void> | void;
 }
@@ -49,6 +50,7 @@ export default function CourtResultCard({
   players,
   playerDocuments,
   canEdit = false,
+  allowResubmission = false,
   playerCollectionPath = ["padel"],
   onSaved,
 }: CourtResultCardProps) {
@@ -128,7 +130,7 @@ export default function CourtResultCard({
           playerIds,
         );
 
-        if (currentStatus === "complete") {
+        if (currentStatus === "complete" && !allowResubmission) {
           throw new Error("Este resultado ya fue cargado por otro jugador.");
         }
 
@@ -192,7 +194,7 @@ export default function CourtResultCard({
                     pattern="[0-9]*"
                     maxLength={1}
                     className="score-input"
-                    disabled={isSubmitted || !canEdit}
+                    disabled={(isSubmitted && !allowResubmission) || !canEdit}
                   />
                 </td>
                 <td className="text-center">VS</td>
@@ -207,7 +209,7 @@ export default function CourtResultCard({
                     pattern="[0-9]*"
                     maxLength={1}
                     className="score-input"
-                    disabled={isSubmitted || !canEdit}
+                    disabled={(isSubmitted && !allowResubmission) || !canEdit}
                   />
                 </td>
                 <td className="text-center">
@@ -230,6 +232,11 @@ export default function CourtResultCard({
           guardar los 4 puntajes para completarlo.
         </div>
       )}
+      {submissionStatus === "complete" && allowResubmission && !error && (
+        <div className="alert alert-info text-center" role="alert">
+          Estás en modo administrador. Puedes corregir este marcador ya cerrado.
+        </div>
+      )}
       {!canEdit && !error && (
         <div className="alert alert-secondary text-center" role="alert">
           Solo los jugadores asignados a esta cancha pueden modificar este juego
@@ -241,9 +248,13 @@ export default function CourtResultCard({
         <button
           className="btn btn-primary"
           onClick={handleSubmit}
-          disabled={isSubmitted || isSaving || !canEdit}
+          disabled={(isSubmitted && !allowResubmission) || isSaving || !canEdit}
         >
-          {isSubmitted
+          {isSubmitted && allowResubmission
+            ? isSaving
+              ? "Actualizando..."
+              : "Actualizar resultado"
+            : isSubmitted
             ? "Resultado cerrado"
             : isSaving
               ? "Guardando..."

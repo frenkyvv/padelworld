@@ -2,10 +2,16 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { collection, getDocs } from "firebase/firestore";
 import CourtResultCard from "@/app/componentes/CourtResultCard";
 import { db } from "@/lib/firebase";
-import { type GameNumber, type PlayerDocument, type PlayerId } from "@/lib/padel";
+import {
+  CONFIG_SESSION_STORAGE_KEY,
+  type GameNumber,
+  type PlayerDocument,
+  type PlayerId,
+} from "@/lib/padel";
 import {
   FIXED_AMERICANAS_ABRIL_EVENT_ID,
   FIXED_AMERICANAS_ABRIL_PLAYER_COLLECTION_PATH,
@@ -24,12 +30,22 @@ export default function FixedAmericanasAbrilCourtPageView({
   gameNumber,
   courtNumber,
 }: FixedAmericanasAbrilCourtPageViewProps) {
+  const searchParams = useSearchParams();
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
   const [refreshToken, setRefreshToken] = useState(0);
+  const [isAdminMode, setIsAdminMode] = useState(false);
 
   useEffect(() => {
+    const adminRequested = searchParams.get("mode") === "admin";
+    const savedConfigSession =
+      typeof window !== "undefined"
+        ? localStorage.getItem(CONFIG_SESSION_STORAGE_KEY)
+        : null;
+
+    setIsAdminMode(adminRequested && savedConfigSession === "authorized");
+
     const fetchPlayers = async () => {
       try {
         const querySnapshot = await getDocs(
@@ -48,7 +64,7 @@ export default function FixedAmericanasAbrilCourtPageView({
     };
 
     void fetchPlayers();
-  }, [refreshToken]);
+  }, [refreshToken, searchParams]);
 
   const court = getFixedAmericanasAbrilCourt(gameNumber, courtNumber);
 
@@ -65,6 +81,12 @@ export default function FixedAmericanasAbrilCourtPageView({
         Este rol viene fijo desde el Excel del domingo. Aquí solo se captura el
         resultado de esta cancha.
       </div>
+      {isAdminMode && (
+        <div className="subtitulo admin-mode-copy">
+          Entraste desde cofig. Esta tarjeta está abierta en modo administrador
+          para corregir marcadores ya grabados.
+        </div>
+      )}
       <div className="container">
         <CourtResultCard
           court={court}
@@ -72,6 +94,7 @@ export default function FixedAmericanasAbrilCourtPageView({
           players={FIXED_AMERICANAS_ABRIL_PLAYERS}
           playerDocuments={playerDocuments}
           canEdit
+          allowResubmission={isAdminMode}
           playerCollectionPath={
             [...FIXED_AMERICANAS_ABRIL_PLAYER_COLLECTION_PATH] as [
               string,

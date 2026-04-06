@@ -1,5 +1,6 @@
 import Link from "next/link";
 import AppTabs from "@/app/componentes/AppTabs";
+import FixedAmericanasAbrilCurrentRound from "@/app/componentes/FixedAmericanasAbrilCurrentRound";
 import SvgBackground from "@/app/componentes/SvgBackground";
 import "./styles.css";
 
@@ -14,11 +15,11 @@ export default function Home() {
           <div className="card-body text-center">
             <h2 className="h4 mb-2">Americanas del próximo domingo</h2>
             <p className="text-muted mb-3">
-              Ya está cargado el rol fijo del Excel con todos sus jugadores.
-              Desde aquí puedes abrir el rol de juegos o revisar la tabla
-              general de este evento.
+              Aquí se publica un juego a la vez. Cuando se completan todas las
+              canchas del juego actual, la app libera automáticamente el
+              siguiente.
             </p>
-            <div className="botones compact-buttons">
+            <div className="botones compact-buttons top-actions">
               <Link
                 href="/roles-fijos/americanas-abril"
                 className="btn btn-primary"
@@ -32,6 +33,7 @@ export default function Home() {
                 Ver tabla general
               </Link>
             </div>
+            <FixedAmericanasAbrilCurrentRound />
           </div>
         </div>
       </div>
