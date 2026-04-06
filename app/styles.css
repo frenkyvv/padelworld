@@ -115,6 +115,9 @@
 .role-card-column {
   max-width: 220px;
 }
+.current-round-card-column {
+  max-width: 300px;
+}
 .role-card {
   border-radius: 12px;
 }
@@ -232,6 +235,10 @@
   }
 
   .role-card-column {
+    max-width: none;
+  }
+
+  .current-round-card-column {
     max-width: none;
   }
 

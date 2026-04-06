@@ -16,6 +16,7 @@ interface RoundCourtCardsProps {
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
   courts?: ReturnType<typeof getCourtsFallback>;
   buildCourtHref?: (gameNumber: GameNumber, courtNumber: number) => string;
+  columnClassName?: string;
 }
 
 function getCourtsFallback(gameNumber: GameNumber) {
@@ -29,6 +30,7 @@ export default function RoundCourtCards({
   courts = getCourtsFallback(gameNumber),
   buildCourtHref = (selectedGameNumber, courtNumber) =>
     `/rol/juego/${selectedGameNumber}/cancha/${courtNumber}`,
+  columnClassName = "col-6 col-lg-4 col-xl-3 role-card-column",
 }: RoundCourtCardsProps) {
   return (
     <div className="row g-3">
@@ -42,10 +44,7 @@ export default function RoundCourtCards({
         const isSubmitted = submissionStatus === "complete";
 
         return (
-          <div
-            className="col-6 col-lg-4 col-xl-3 role-card-column"
-            key={court.courtLabel}
-          >
+          <div className={columnClassName} key={court.courtLabel}>
             <div className="card h-100 shadow-sm role-card">
               <div className="card-body">
                 <div className="d-flex justify-content-between align-items-center mb-3">

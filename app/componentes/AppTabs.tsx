@@ -4,15 +4,21 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TAB_ITEMS = [
-  { href: "/", label: "Inicio" },
+  { href: "/", label: "Inicio", exact: true },
   {
     href: "/roles-fijos/americanas-abril/resultados",
     label: "Tabla general",
+    exact: true,
   },
-  { href: "/roles-fijos/americanas-abril", label: "Rol fijo" },
+  {
+    href: "/roles-fijos/americanas-abril",
+    label: "Rol fijo",
+    exact: true,
+  },
   {
     href: "/roles-fijos/americanas-abril/terminados",
     label: "Terminados",
+    exact: true,
   },
 ];
 
@@ -23,9 +29,9 @@ export default function AppTabs() {
     <div className="app-tabs-wrap">
       <div className="nav nav-tabs app-tabs">
         {TAB_ITEMS.map((tab) => {
-          const isActive =
-            pathname === tab.href ||
-            (tab.href !== "/" && pathname.startsWith(tab.href));
+          const isActive = tab.exact
+            ? pathname === tab.href
+            : pathname === tab.href || pathname.startsWith(`${tab.href}/`);
 
           return (
             <Link

@@ -66,7 +66,8 @@ export default function ConfigAccessPanel() {
                 onChange={(event) =>
                   setPin(event.target.value.replace(/\D/g, "").slice(0, 4))
                 }
-                placeholder="0160"
+                placeholder="Clave de 4 dígitos"
+                autoComplete="off"
               />
               {error && (
                 <div className="alert alert-danger mb-0" role="alert">

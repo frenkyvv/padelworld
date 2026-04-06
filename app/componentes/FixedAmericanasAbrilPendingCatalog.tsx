@@ -21,10 +21,12 @@ import {
 
 interface FixedAmericanasAbrilPendingCatalogProps {
   scope?: "all" | "current";
+  includeCompleted?: boolean;
 }
 
 export default function FixedAmericanasAbrilPendingCatalog({
   scope = "all",
+  includeCompleted = false,
 }: FixedAmericanasAbrilPendingCatalogProps) {
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
@@ -62,15 +64,16 @@ export default function FixedAmericanasAbrilPendingCatalog({
   }, []);
 
   const pendingSections = FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.map((gameNumber) => {
-    const courts = (FIXED_AMERICANAS_ABRIL_SCHEDULES[gameNumber] ?? []).filter(
-      (court) => {
-        const playerIds = [...court.teamA, ...court.teamB] as PlayerId[];
-        return (
-          getCourtSubmissionStatus(playerDocuments, gameNumber, playerIds) !==
-          "complete"
-        );
-      },
-    );
+    const baseCourts = FIXED_AMERICANAS_ABRIL_SCHEDULES[gameNumber] ?? [];
+    const courts = includeCompleted
+      ? baseCourts
+      : baseCourts.filter((court) => {
+          const playerIds = [...court.teamA, ...court.teamB] as PlayerId[];
+          return (
+            getCourtSubmissionStatus(playerDocuments, gameNumber, playerIds) !==
+            "complete"
+          );
+        });
 
     return { gameNumber, courts };
   }).filter((section) => section.courts.length > 0);

@@ -85,6 +85,7 @@ export default function FixedAmericanasAbrilCurrentRound() {
           courts={FIXED_AMERICANAS_ABRIL_SCHEDULES[currentGameNumber]}
           players={FIXED_AMERICANAS_ABRIL_PLAYERS}
           playerDocuments={playerDocuments}
+          columnClassName="col-6 current-round-card-column"
           buildCourtHref={(selectedGameNumber, courtNumber) =>
             `/roles-fijos/${FIXED_AMERICANAS_ABRIL_EVENT_ID}/juego/${selectedGameNumber}/cancha/${courtNumber}`
           }

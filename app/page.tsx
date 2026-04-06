@@ -13,12 +13,7 @@ export default function Home() {
       <div className="container fixed-home-wrap">
         <div className="card shadow-sm mb-4 fixed-event-card fixed-home-card">
           <div className="card-body text-center">
-            <h2 className="h4 mb-2">Americanas del próximo domingo</h2>
-            <p className="text-muted mb-3">
-              Aquí se publica un juego a la vez. Cuando se completan todas las
-              canchas del juego actual, la app libera automáticamente el
-              siguiente.
-            </p>
+            <h2 className="h4 mb-3">Juego en curso</h2>
             <div className="botones compact-buttons top-actions">
               <Link
                 href="/roles-fijos/americanas-abril"
