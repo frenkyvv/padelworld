@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { doc, runTransaction } from "firebase/firestore";
+import { collection, doc, runTransaction } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import {
   getCourtSubmissionStatus,
@@ -21,6 +21,7 @@ interface CourtResultCardProps {
   players: Partial<Record<PlayerId, string>>;
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
   canEdit?: boolean;
+  playerCollectionPath?: [string, ...string[]];
   onSaved?: () => Promise<void> | void;
 }
 
@@ -48,6 +49,7 @@ export default function CourtResultCard({
   players,
   playerDocuments,
   canEdit = false,
+  playerCollectionPath = ["padel"],
   onSaved,
 }: CourtResultCardProps) {
   const playerIds = useMemo(
@@ -106,7 +108,10 @@ export default function CourtResultCard({
     try {
       await runTransaction(db, async (transaction) => {
         const gameField = getGameField(gameNumber);
-        const playerRefs = playerIds.map((playerId) => doc(db, "padel", playerId));
+        const playerCollection = collection(db, ...playerCollectionPath);
+        const playerRefs = playerIds.map((playerId) =>
+          doc(playerCollection, playerId),
+        );
         const playerSnapshots = await Promise.all(
           playerRefs.map((playerRef) => transaction.get(playerRef)),
         );

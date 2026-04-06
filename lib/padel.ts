@@ -278,7 +278,14 @@ export function getScoreForGame(
 }
 
 export function getTotalPoints(player: PlayerDocument): number {
-  return GAME_NUMBERS.reduce(
+  return getTotalPointsForGames(player, GAME_NUMBERS);
+}
+
+export function getTotalPointsForGames(
+  player: PlayerDocument,
+  gameNumbers: GameNumber[],
+): number {
+  return gameNumbers.reduce(
     (total, gameNumber) => total + getScoreForGame(player, gameNumber),
     0,
   );

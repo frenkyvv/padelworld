@@ -24,6 +24,12 @@ export default function RolPage() {
         <TournamentRoleCatalog />
       </div>
       <div className="botones compact-buttons">
+        <Link
+          href="/roles-fijos/americanas-abril"
+          className="btn btn-outline-success"
+        >
+          Ver rol fijo del domingo
+        </Link>
         <Link href="/" className="btn btn-link">
           Inicio
         </Link>

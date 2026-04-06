@@ -127,6 +127,13 @@
   text-align: center;
   margin: 0 auto;
 }
+.fixed-event-card {
+  border-radius: 18px;
+}
+.fixed-event-copy {
+  width: min(560px, calc(100% - 32px));
+  text-align: center;
+}
 .svg-background {
   position: fixed;
   top: 0;

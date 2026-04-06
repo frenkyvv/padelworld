@@ -17,6 +17,12 @@ export default function ResultadosPage() {
         <TablaTodosJugadores />
       </div>
       <div className="botones compact-buttons">
+        <Link
+          href="/roles-fijos/americanas-abril/resultados"
+          className="btn btn-outline-success"
+        >
+          Ver resultados del rol fijo
+        </Link>
         <Link href="/" className="btn btn-link">
           Inicio
         </Link>

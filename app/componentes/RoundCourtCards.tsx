@@ -14,15 +14,22 @@ interface RoundCourtCardsProps {
   gameNumber: GameNumber;
   players: Partial<Record<PlayerId, string>>;
   playerDocuments: Partial<Record<PlayerId, PlayerDocument>>;
+  courts?: ReturnType<typeof getCourtsFallback>;
+  buildCourtHref?: (gameNumber: GameNumber, courtNumber: number) => string;
+}
+
+function getCourtsFallback(gameNumber: GameNumber) {
+  return GAME_SCHEDULES[gameNumber] ?? [];
 }
 
 export default function RoundCourtCards({
   gameNumber,
   players,
   playerDocuments,
+  courts = getCourtsFallback(gameNumber),
+  buildCourtHref = (selectedGameNumber, courtNumber) =>
+    `/rol/juego/${selectedGameNumber}/cancha/${courtNumber}`,
 }: RoundCourtCardsProps) {
-  const courts = GAME_SCHEDULES[gameNumber] ?? [];
-
   return (
     <div className="row g-3">
       {courts.map((court, index) => {
@@ -73,7 +80,7 @@ export default function RoundCourtCards({
               </div>
               <div className="card-footer bg-transparent border-0 pt-0">
                 <Link
-                  href={`/rol/juego/${gameNumber}/cancha/${index + 1}`}
+                  href={buildCourtHref(gameNumber, index + 1)}
                   className={`btn w-100 ${
                     isSubmitted ? "btn-outline-secondary" : "btn-primary"
                   }`}
