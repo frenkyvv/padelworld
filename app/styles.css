@@ -64,6 +64,10 @@
   width: auto;
   gap: 12px;
 }
+.top-actions {
+  margin-top: 0;
+  margin-bottom: 8px;
+}
 .padd{
   padding-top: 20px;
 }
@@ -150,6 +154,20 @@
 .fixed-event-copy {
   width: min(560px, calc(100% - 32px));
   text-align: center;
+}
+.config-panels {
+  width: min(820px, 100%);
+  padding-inline: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.config-card {
+  width: 100%;
+  border-radius: 18px;
+}
+.config-actions {
+  width: 100%;
 }
 .empty-catalog-state {
   width: min(680px, 100%);

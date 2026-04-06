@@ -14,6 +14,20 @@ export default function FixedAmericanasAbrilTerminadosPage() {
       <div className="subtitulo fixed-event-copy">
         Aquí se van acumulando las canchas que ya cerraron su marcador final.
       </div>
+      <div className="botones compact-buttons top-actions">
+        <Link
+          href="/roles-fijos/americanas-abril"
+          className="btn btn-outline-primary"
+        >
+          Volver a pendientes
+        </Link>
+        <Link
+          href="/roles-fijos/americanas-abril/resultados"
+          className="btn btn-outline-secondary"
+        >
+          Ver tabla general
+        </Link>
+      </div>
       <div className="tablaTotal">
         <FixedAmericanasAbrilCompletedCatalog />
       </div>
