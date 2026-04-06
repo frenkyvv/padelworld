@@ -281,7 +281,7 @@
 
 #red {
   fill: none;
-  opacity: 0.15;
+  opacity: 0.18;
   stroke: #ce1b5f;
   stroke-width: 12;
   stroke-miterlimit: 10;
@@ -293,7 +293,7 @@
 
 #blue {
   fill: none;
-  opacity: 0.15;
+  opacity: 0.18;
   stroke: #06a1c4;
   stroke-width: 12;
   stroke-miterlimit: 10;
@@ -305,7 +305,7 @@
 
 #light-blue {
   fill: none;
-  opacity: 0.15;
+  opacity: 0.18;
   stroke: #06a1c4;
   stroke-width: 6;
   stroke-miterlimit: 10;
@@ -318,7 +318,7 @@
 }
 #red {
   fill: none;
-  opacity: 0.15;
+  opacity: 0.18;
   stroke: #ce1b5f;
   stroke-width: 12;
   stroke-miterlimit: 10;
@@ -330,7 +330,7 @@
 
 #blue {
   fill: none;
-  opacity: 0.15;
+  opacity: 0.18;
   stroke: #06a1c4;
   stroke-width: 12;
   stroke-miterlimit: 10;
@@ -348,12 +348,12 @@
 
 @keyframes show {
   0% {
-    opacity: 0.15;
+    opacity: 0.18;
   }
   50% {
-    opacity: 0.2;
+    opacity: 0.24;
   }
   100% {
-    opacity: 0.15;
+    opacity: 0.18;
   }
 }
