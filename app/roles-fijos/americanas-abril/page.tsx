@@ -1,6 +1,6 @@
 import Link from "next/link";
 import AppTabs from "@/app/componentes/AppTabs";
-import FixedAmericanasAbrilCatalog from "@/app/componentes/FixedAmericanasAbrilCatalog";
+import FixedAmericanasAbrilPendingCatalog from "@/app/componentes/FixedAmericanasAbrilPendingCatalog";
 import SvgBackground from "@/app/componentes/SvgBackground";
 import {
   FIXED_AMERICANAS_ABRIL_GAME_NUMBERS,
@@ -17,16 +17,23 @@ export default function FixedAmericanasAbrilPage() {
       <AppTabs />
       <div className="subtitulo fixed-event-copy">
         Este rol ya viene precargado con los jugadores del Excel. Aquí solo se
-        abren las tarjetas para capturar resultados.
+        muestran los juegos pendientes. Cuando una cancha se completa, se mueve
+        a la página de juegos terminados.
       </div>
       <div className="subtitulo">
         {Object.keys(FIXED_AMERICANAS_ABRIL_PLAYERS).length} jugadores, 5
         canchas, {FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.length} juegos
       </div>
       <div className="tablaTotal">
-        <FixedAmericanasAbrilCatalog />
+        <FixedAmericanasAbrilPendingCatalog />
       </div>
       <div className="botones compact-buttons">
+        <Link
+          href="/roles-fijos/americanas-abril/terminados"
+          className="btn btn-outline-secondary"
+        >
+          Ver juegos terminados
+        </Link>
         <Link
           href="/roles-fijos/americanas-abril/resultados"
           className="btn btn-outline-primary"

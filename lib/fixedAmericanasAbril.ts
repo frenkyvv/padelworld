@@ -1,4 +1,10 @@
-import type { CourtDefinition, GameNumber, PlayerDocument, PlayerId } from "@/lib/padel";
+import {
+  getScoreForGame,
+  type CourtDefinition,
+  type GameNumber,
+  type PlayerDocument,
+  type PlayerId,
+} from "@/lib/padel";
 
 export const FIXED_AMERICANAS_ABRIL_EVENT_ID = "americanas-abril";
 export const FIXED_AMERICANAS_ABRIL_TITLE = "Rol fijo Americanas Abril";
@@ -115,4 +121,20 @@ export function getFixedAmericanasAbrilPlayerDocumentsMap(
       [playerId]: player,
     };
   }, {} as Partial<Record<PlayerId, PlayerDocument>>);
+}
+
+export function getFixedAmericanasAbrilTeamScoreLabel(
+  playerDocuments: Partial<Record<PlayerId, PlayerDocument>>,
+  gameNumber: GameNumber,
+  team: [PlayerId, PlayerId],
+): string {
+  const scores = team.map((playerId) => {
+    const playerDocument = playerDocuments[playerId];
+    return playerDocument ? getScoreForGame(playerDocument, gameNumber) : 0;
+  });
+  const uniqueScores = [...new Set(scores)];
+
+  return uniqueScores.length === 1
+    ? String(uniqueScores[0])
+    : uniqueScores.join(" / ");
 }

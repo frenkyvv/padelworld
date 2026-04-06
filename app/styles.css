@@ -151,6 +151,39 @@
   width: min(560px, calc(100% - 32px));
   text-align: center;
 }
+.empty-catalog-state {
+  width: min(680px, 100%);
+  padding: 18px 20px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.86);
+  text-align: center;
+  color: #495057;
+  box-shadow: 0 10px 30px rgba(13, 110, 253, 0.08);
+}
+.completed-role-card {
+  border-color: rgba(25, 135, 84, 0.18);
+}
+.completed-team-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.completed-team-names {
+  flex: 1;
+  text-align: center;
+  font-size: 0.88rem;
+  line-height: 1.3;
+}
+.completed-team-score {
+  min-width: 34px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: #198754;
+  color: #fff;
+  font-weight: 700;
+  text-align: center;
+}
 @media (max-width: 575px) {
   .catalog-section .row {
     --bs-gutter-x: 10px;
@@ -171,6 +204,16 @@
 
   .role-card .card-text {
     font-size: 0.85rem;
+  }
+
+  .completed-team-names {
+    font-size: 0.8rem;
+  }
+
+  .completed-team-score {
+    min-width: 30px;
+    padding-inline: 6px;
+    font-size: 0.84rem;
   }
 }
 .svg-background {

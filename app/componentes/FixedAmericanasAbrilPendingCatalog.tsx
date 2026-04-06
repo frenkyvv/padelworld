@@ -4,7 +4,11 @@ import { useEffect, useState } from "react";
 import { collection, getDocs } from "firebase/firestore";
 import RoundCourtCards from "@/app/componentes/RoundCourtCards";
 import { db } from "@/lib/firebase";
-import { type PlayerDocument, type PlayerId } from "@/lib/padel";
+import {
+  getCourtSubmissionStatus,
+  type PlayerDocument,
+  type PlayerId,
+} from "@/lib/padel";
 import {
   FIXED_AMERICANAS_ABRIL_EVENT_ID,
   FIXED_AMERICANAS_ABRIL_GAME_NUMBERS,
@@ -14,7 +18,7 @@ import {
   getFixedAmericanasAbrilPlayerDocumentsMap,
 } from "@/lib/fixedAmericanasAbril";
 
-export default function FixedAmericanasAbrilCatalog() {
+export default function FixedAmericanasAbrilPendingCatalog() {
   const [playerDocuments, setPlayerDocuments] = useState<
     Partial<Record<PlayerId, PlayerDocument>>
   >({});
@@ -50,14 +54,37 @@ export default function FixedAmericanasAbrilCatalog() {
     };
   }, []);
 
+  const pendingSections = FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.map((gameNumber) => {
+    const courts = (FIXED_AMERICANAS_ABRIL_SCHEDULES[gameNumber] ?? []).filter(
+      (court) => {
+        const playerIds = [...court.teamA, ...court.teamB] as PlayerId[];
+        return (
+          getCourtSubmissionStatus(playerDocuments, gameNumber, playerIds) !==
+          "complete"
+        );
+      },
+    );
+
+    return { gameNumber, courts };
+  }).filter((section) => section.courts.length > 0);
+
+  if (pendingSections.length === 0) {
+    return (
+      <div className="empty-catalog-state">
+        Todos los juegos ya tienen marcador. Ahora los puedes consultar en la
+        página de juegos terminados.
+      </div>
+    );
+  }
+
   return (
     <div className="catalog-grid">
-      {FIXED_AMERICANAS_ABRIL_GAME_NUMBERS.map((gameNumber) => (
+      {pendingSections.map(({ gameNumber, courts }) => (
         <section key={gameNumber} className="catalog-section">
           <div className="catalog-section-header">Juego {gameNumber}</div>
           <RoundCourtCards
             gameNumber={gameNumber}
-            courts={FIXED_AMERICANAS_ABRIL_SCHEDULES[gameNumber]}
+            courts={courts}
             players={FIXED_AMERICANAS_ABRIL_PLAYERS}
             playerDocuments={playerDocuments}
             buildCourtHref={(selectedGameNumber, courtNumber) =>

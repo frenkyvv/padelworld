@@ -1,37 +1,34 @@
 import Link from "next/link";
 import AppTabs from "@/app/componentes/AppTabs";
-import FixedAmericanasAbrilResultsTable from "@/app/componentes/FixedAmericanasAbrilResultsTable";
+import FixedAmericanasAbrilCompletedCatalog from "@/app/componentes/FixedAmericanasAbrilCompletedCatalog";
 import SvgBackground from "@/app/componentes/SvgBackground";
 import { FIXED_AMERICANAS_ABRIL_TITLE } from "@/lib/fixedAmericanasAbril";
 import "@/app/styles.css";
 
-export default function FixedAmericanasAbrilResultadosPage() {
+export default function FixedAmericanasAbrilTerminadosPage() {
   return (
     <div className="topcontainer">
       <SvgBackground />
-      <div className="titulo">{FIXED_AMERICANAS_ABRIL_TITLE} - Tabla general</div>
+      <div className="titulo">{FIXED_AMERICANAS_ABRIL_TITLE} - Juegos terminados</div>
       <AppTabs />
       <div className="subtitulo fixed-event-copy">
-        Consulta aquí cómo va el puntaje acumulado de este rol fijo.
+        Aquí se van acumulando las canchas que ya cerraron su marcador final.
       </div>
       <div className="tablaTotal">
-        <FixedAmericanasAbrilResultsTable />
+        <FixedAmericanasAbrilCompletedCatalog />
       </div>
       <div className="botones compact-buttons">
-        <Link
-          href="/roles-fijos/americanas-abril/terminados"
-          className="btn btn-outline-secondary"
-        >
-          Ver juegos terminados
-        </Link>
         <Link
           href="/roles-fijos/americanas-abril"
           className="btn btn-outline-primary"
         >
-          Volver al rol fijo
+          Volver a pendientes
         </Link>
-        <Link href="/" className="btn btn-link">
-          Inicio
+        <Link
+          href="/roles-fijos/americanas-abril/resultados"
+          className="btn btn-outline-secondary"
+        >
+          Ver tabla general
         </Link>
       </div>
     </div>
