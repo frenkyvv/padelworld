@@ -43,7 +43,7 @@ export default function RoundCourtCards({
 
         return (
           <div
-            className="col-12 col-sm-6 col-lg-4 col-xl-3 role-card-column"
+            className="col-6 col-lg-4 col-xl-3 role-card-column"
             key={court.courtLabel}
           >
             <div className="card h-100 shadow-sm role-card">

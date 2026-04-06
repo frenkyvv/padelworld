@@ -4,9 +4,12 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const TAB_ITEMS = [
-  { href: "/", label: "Main" },
-  { href: "/resultados", label: "Tabla general" },
-  { href: "/rol", label: "Rol por juegos" },
+  { href: "/", label: "Inicio" },
+  {
+    href: "/roles-fijos/americanas-abril/resultados",
+    label: "Tabla general",
+  },
+  { href: "/roles-fijos/americanas-abril", label: "Rol fijo" },
 ];
 
 export default function AppTabs() {
