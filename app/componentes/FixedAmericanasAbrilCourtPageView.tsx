@@ -77,10 +77,6 @@ export default function FixedAmericanasAbrilCourtPageView({
       <div className="titulo">
         {FIXED_AMERICANAS_ABRIL_TITLE} - Juego {gameNumber} - {court.courtLabel}
       </div>
-      <div className="subtitulo">
-        Este rol viene fijo desde el Excel del domingo. Aquí solo se captura el
-        resultado de esta cancha.
-      </div>
       {isAdminMode && (
         <div className="subtitulo admin-mode-copy">
           Entraste desde cofig. Esta tarjeta está abierta en modo administrador
@@ -116,6 +112,9 @@ export default function FixedAmericanasAbrilCourtPageView({
           className="btn btn-outline-secondary"
         >
           Ver tabla general
+        </Link>
+        <Link href="/" className="btn btn-link">
+          Inicio
         </Link>
       </div>
     </div>
